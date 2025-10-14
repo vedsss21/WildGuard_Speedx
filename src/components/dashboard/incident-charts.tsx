@@ -18,39 +18,13 @@ import {
 import { incidentTrendData, incidentTypeData } from "@/lib/data";
 import { useTranslation } from "@/contexts/language-context";
 
-const incidentTypeChartConfig = {
+const chartConfig = {
   incidents: {
     label: "Incidents",
     color: "hsl(var(--chart-1))",
-  },
-  crop: {
-    label: "Crop Damage",
-    color: "hsl(var(--chart-1))",
-  },
-  property: {
-    label: "Property Damage",
-    color: "hsl(var(--chart-2))",
-  },
-  attack: {
-    label: "Animal Attack",
-    color: "hsl(var(--chart-3))",
-  },
-  sighting: {
-    label: "Sighting",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
-const incidentTrendChartConfig = {
-  incidents: {
-    label: "Incidents",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
 
 export default function IncidentCharts() {
   const { t } = useTranslation();
@@ -63,7 +37,7 @@ export default function IncidentCharts() {
         </CardHeader>
         <CardContent>
           <div className="h-[300px] w-full">
-            <ChartContainer config={incidentTypeChartConfig} className="w-full h-full">
+            <ChartContainer config={chartConfig} className="w-full h-full">
               <BarChart data={incidentTypeData.map(d => ({...d, type: t(`incidentTypesShort.${d.type.slice(0,3).toLowerCase()}` as any)}))} accessibilityLayer margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                  <defs>
                     <linearGradient id="fillIncidents" x1="0" y1="0" x2="0" y2="1">
@@ -82,10 +56,10 @@ export default function IncidentCharts() {
                 <ChartTooltip
                     cursor={false}
                     content={<ChartTooltipContent 
-                        indicator="dot" 
-                        formatter={(value, name) => [`${value} incidents`, t('charts.byType.title')]}
+                        indicator="dot"
+                        labelKey="type"
+                        formatter={(value, name, item) => [`${value}`, `${item.payload.type} Incidents`]}
                     />} 
-                    
                 />
                 <Bar dataKey="incidents" radius={[8, 8, 0, 0]} fill="url(#fillIncidents)"/>
               </BarChart>
@@ -100,7 +74,7 @@ export default function IncidentCharts() {
         </CardHeader>
         <CardContent>
           <div className="h-[300px] w-full">
-            <ChartContainer config={incidentTrendChartConfig} className="w-full h-full">
+            <ChartContainer config={chartConfig} className="w-full h-full">
               <AreaChart
                 data={incidentTrendData.map(d => ({...d, month: t(`months.${d.month.toLowerCase()}` as any)}))}
                 margin={{ top: 10, right: 20, left: -10, bottom: 0 }}
