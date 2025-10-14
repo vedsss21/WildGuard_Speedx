@@ -19,6 +19,7 @@ import {
   User,
   Users,
   Siren,
+  SignalOff,
 } from "lucide-react";
 
 import {
@@ -59,6 +60,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/incidents", icon: ShieldAlert, label: "Manage Incidents" },
   { href: "/dashboard/alerts", icon: Siren, label: "Alerts" },
   { href: "/dashboard/rangers", icon: Users, label: "Rangers" },
+  { href: "/dashboard/offline", icon: SignalOff, label: "Offline Reports" },
 ];
 
 export default function DashboardLayout({
