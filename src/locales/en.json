@@ -41,7 +41,37 @@
         "subtitle": "Leveraging cutting-edge technology to monitor, analyze, and mitigate human-wildlife conflict. Join us in creating a safer world for both humans and animals.",
         "ctaDashboard": "Go to Dashboard",
         "ctaGetStarted": "Get Started",
-        "footer": "© 2024 EcoGuardian. All rights reserved."
+        "footer": "© 2024 EcoGuardian. All rights reserved.",
+        "features": {
+            "supertitle": "Key Features",
+            "title": "Protecting Wildlife, Empowering Communities",
+            "description": "Our platform provides a comprehensive suite of tools to manage and mitigate human-wildlife conflict effectively.",
+            "realTimeAlerts": {
+                "title": "Real-time Alerts",
+                "description": "Receive instant notifications of animal presence near human settlements, enabling quick preventive action."
+            },
+            "hotspotMapping": {
+                "title": "Hotspot Mapping",
+                "description": "Visualize conflict hotspots and animal movement corridors with our advanced GIS mapping tools."
+            },
+            "communityReporting": {
+                "title": "Community Reporting",
+                "description": "Empower local communities to report incidents directly through our user-friendly mobile interface."
+            },
+            "aiAnalysis": {
+                "title": "AI-Powered Analysis",
+                "description": "Leverage AI to analyze trends, predict future conflict zones, and inform strategic interventions."
+            }
+        },
+        "byTheNumbers": {
+            "title": "Our Impact at a Glance",
+            "description": "We are making a tangible difference on the ground, thanks to the collective efforts of our rangers, community members, and technology.",
+            "stats": {
+                "incidentsReported": "Incidents Reported",
+                "activeAlerts": "Active Alerts Monthly",
+                "rangersDeployed": "Rangers Deployed"
+            }
+        }
     },
     "login": {
         "description": "Welcome back. Enter your credentials to access your account.",

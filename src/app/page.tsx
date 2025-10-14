@@ -7,10 +7,61 @@ import { Icons } from '@/components/icons';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { LanguageProvider, useTranslation } from '@/contexts/language-context';
+import { motion, useInView } from 'framer-motion';
+import React, { useRef } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Shield, Siren, Users, MapPin } from 'lucide-react';
+import { useSpring, animated } from '@react-spring/web';
+
+function AnimatedNumber({ n }: { n: number }) {
+    const { number } = useSpring({
+      from: { number: 0 },
+      number: n,
+      delay: 200,
+      config: { mass: 1, tension: 20, friction: 10 },
+    });
+    return <animated.div>{number.to((n) => n.toFixed(0))}</animated.div>;
+}
 
 function LandingPageContent() {
   const { t } = useTranslation();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-image');
+
+  const ref1 = useRef(null);
+  const isInView1 = useInView(ref1, { once: true });
+  const ref2 = useRef(null);
+  const isInView2 = useInView(ref2, { once: true });
+  const ref3 = useRef(null);
+  const isInView3 = useInView(ref3, { once: true });
+
+  const features = [
+    {
+      icon: <Siren className="h-10 w-10 text-primary" />,
+      title: t('landing.features.realTimeAlerts.title'),
+      description: t('landing.features.realTimeAlerts.description'),
+    },
+    {
+      icon: <MapPin className="h-10 w-10 text-primary" />,
+      title: t('landing.features.hotspotMapping.title'),
+      description: t('landing.features.hotspotMapping.description'),
+    },
+    {
+      icon: <Users className="h-10 w-10 text-primary" />,
+      title: t('landing.features.communityReporting.title'),
+      description: t('landing.features.communityReporting.description'),
+    },
+    {
+        icon: <Shield className="h-10 w-10 text-primary" />,
+        title: t('landing.features.aiAnalysis.title'),
+        description: t('landing.features.aiAnalysis.description'),
+    },
+  ];
+
+  const stats = [
+    { number: 1284, label: t('landing.stats.incidentsReported') },
+    { number: 32, label: t('landing.stats.activeAlerts') },
+    { number: 118, label: t('landing.stats.rangersDeployed') },
+  ];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -34,18 +85,28 @@ function LandingPageContent() {
         </nav>
       </header>
       <main className="flex-1 landing-main">
-        <section className="relative w-full pt-12 md:pt-24 lg:pt-32 border-b">
+        <section className="relative w-full pt-24 md:pt-32 lg:pt-40 border-b">
           <div className="container px-4 md:px-6 grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_650px] items-center">
             <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
-              <div className="space-y-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="space-y-4"
+              >
                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary via-green-600 to-secondary-foreground">
                   {t('landing.title')}
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl mx-auto lg:mx-0">
                   {t('landing.subtitle')}
                 </p>
-              </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row mx-auto lg:mx-0">
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex flex-col gap-2 min-[400px]:flex-row mx-auto lg:mx-0"
+              >
                 <Button asChild size="lg">
                   <Link href="/dashboard">
                     {t('landing.ctaDashboard')}
@@ -56,18 +117,109 @@ function LandingPageContent() {
                     {t('landing.ctaGetStarted')}
                   </Link>
                 </Button>
-              </div>
+              </motion.div>
             </div>
-             <Image
-                src={heroImage?.imageUrl || "https://picsum.photos/seed/hero/650/650"}
-                alt="Hero"
-                width={650}
-                height={650}
-                className="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-                data-ai-hint={heroImage?.imageHint}
-              />
+             <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+             >
+                <Image
+                    src={heroImage?.imageUrl || "https://picsum.photos/seed/hero/650/650"}
+                    alt="Hero"
+                    width={650}
+                    height={650}
+                    className="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+                    data-ai-hint={heroImage?.imageHint}
+                />
+             </motion.div>
           </div>
         </section>
+
+        <section ref={ref1} className="w-full py-12 md:py-24 lg:py-32 bg-background">
+          <div className="container px-4 md:px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView1 ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                <div className="space-y-2">
+                  <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm">{t('landing.features.supertitle')}</div>
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t('landing.features.title')}</h2>
+                  <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                    {t('landing.features.description')}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+            <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-4 mt-12">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView1 ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
+                >
+                  <Card className="h-full">
+                    <CardHeader className="flex flex-col items-center text-center">
+                      {feature.icon}
+                      <CardTitle className="mt-4">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center">
+                      <p className="text-muted-foreground">{feature.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section ref={ref2} className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
+          <div className="container px-4 md:px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView2 ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]"
+            >
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t('landing.byTheNumbers.title')}</h2>
+                  <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                    {t('landing.byTheNumbers.description')}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-4">
+                    {stats.map((stat, index) => (
+                        <div key={index} className="flex flex-col items-center p-4 rounded-lg min-w-[120px]">
+                            <div className="text-5xl font-bold text-primary">
+                                {isInView2 && <AnimatedNumber n={stat.number} />}
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-2">{stat.label}</p>
+                        </div>
+                    ))}
+                </div>
+              </div>
+              <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={isInView2 ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <Image
+                    src="https://picsum.photos/seed/stats-image/600/400"
+                    alt="Rangers"
+                    width={600}
+                    height={400}
+                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
+                    data-ai-hint="wildlife rangers team"
+                />
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
       </main>
       <footer className="flex items-center justify-center p-6 bg-background">
         <p className="text-sm text-muted-foreground">© 2025 EcoGuardian. All rights reserved.</p>
