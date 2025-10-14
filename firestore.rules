@@ -1,0 +1,89 @@
+/**
+ * @fileoverview Firestore Security Rules for the EcoGuardian Dashboard application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a mixed security model, balancing public read access for incident data with
+ * strict owner-only write access for ranger data and controlled writes to incidents.
+ *
+ * Data Structure:
+ * - /rangers/{rangerId}: Stores individual ranger profiles. Each ranger can only manage their own profile.
+ * - /incidents/{incidentId}: Stores incident reports. Publicly readable, but restricted create, update, and delete.
+ *
+ * Key Security Decisions:
+ * - Rangers have full control over their own profile data via `isOwner(rangerId)`.
+ * - Incidents are publicly readable to facilitate real-time monitoring and reporting, but writes require ownership validation.
+ * - Listing of rangers and incidents is enabled for use by the dashboard.
+ *
+ * Denormalization for Authorization:
+ * - The `Incident` entity contains a `rangerInChargeId` field.  This avoids the need for complex queries or `get()` calls
+ *   to determine which ranger is responsible for an incident, simplifying write authorization rules.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Grants rangers full access to their own profiles.
+     * @path /rangers/{rangerId}
+     * @allow (create, update, delete) A ranger with UID "ranger123" can create/update/delete the document /rangers/ranger123.
+     * @allow (get, list) Any ranger can read their profile
+     * @deny (create, update, delete) A ranger with UID "ranger123" cannot create/update/delete the document /rangers/anotherRangerId.
+     * @principle Enforces document ownership for ranger profiles, restricting access to the owner.
+     */
+    match /rangers/{rangerId} {
+      // Helpers
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(rangerId) {
+        return isSignedIn() && request.auth.uid == rangerId;
+      }
+
+      function isExistingOwner(rangerId) {
+        return isOwner(rangerId) && resource != null;
+      }
+
+      // Permissions
+
+      allow get: if true;
+      allow list: if true;
+      allow create: if isOwner(rangerId);
+      allow update: if isExistingOwner(rangerId);
+      allow delete: if isExistingOwner(rangerId);
+    }
+
+    /**
+     * @description Allows public read access to incidents but restricts write access.
+     * @path /incidents/{incidentId}
+     * @allow (get, list) Any user (including unauthenticated) can read all incident data.
+     * @allow (create) A user can create an incident if the `rangerInChargeId` matches their `auth.uid`.
+     * @allow (update, delete) Only the ranger in charge (identified by `rangerInChargeId`) can update or delete an existing incident.
+     * @deny (create) A user cannot create an incident if the `rangerInChargeId` does not match their `auth.uid`.
+     * @deny (update, delete) A user cannot update or delete an incident if they are not the ranger in charge.
+     * @principle Provides public visibility for incident reporting while controlling modifications.
+     */
+    match /incidents/{incidentId} {
+      // Helpers
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(rangerInChargeId) {
+        return isSignedIn() && request.auth.uid == rangerInChargeId;
+      }
+
+      function isExistingOwner(rangerInChargeId) {
+        return isOwner(rangerInChargeId) && resource != null;
+      }
+
+      // Permissions
+
+      allow get: if true;
+      allow list: if true;
+      allow create: if isSignedIn() && request.resource.data.rangerInChargeId == request.auth.uid;
+      allow update: if isExistingOwner(resource.data.rangerInChargeId);
+      allow delete: if isExistingOwner(resource.data.rangerInChargeId);
+    }
+  }
+}
