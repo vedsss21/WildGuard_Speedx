@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -16,7 +15,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const MapViewFull = dynamic(() => import("./map-view-full"), {
     ssr: false,
-    loading: () => <Skeleton className="h-full w-full" />,
+    loading: () => <Skeleton className="h-[400px] w-full" />,
 });
 
 export default function MapView() {
@@ -36,7 +35,7 @@ export default function MapView() {
                 </Button>
             </CardHeader>
             <CardContent>
-                <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden border">
+                <div className="relative h-[400px] w-full rounded-lg overflow-hidden border">
                     <MapViewFull />
                 </div>
             </CardContent>
