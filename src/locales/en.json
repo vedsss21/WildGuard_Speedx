@@ -1,0 +1,37 @@
+
+{
+    "header": {
+        "searchPlaceholder": "Search incidents or rangers...",
+        "toggleTheme": "Toggle theme",
+        "theme": {
+            "light": "Light",
+            "dark": "Dark",
+            "system": "System"
+        },
+        "toggleLanguage": "Toggle language",
+        "toggleNotifications": "Toggle notifications"
+    },
+    "user": {
+        "name": "Admin User",
+        "email": "admin@ecoguardian.gov",
+        "role": "Official",
+        "menu": {
+            "profile": "Profile",
+            "settings": "Settings",
+            "logout": "Logout"
+        }
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "map": "Map View",
+        "reports": "Reports",
+        "analyzer": "Analyzer",
+        "research": "Research Lab",
+        "community": "Community Hub",
+        "engagement": "Engagement",
+        "manageIncidents": "Manage Incidents",
+        "alerts": "Alerts",
+        "rangers": "Rangers",
+        "offline": "Offline Reports"
+    }
+}

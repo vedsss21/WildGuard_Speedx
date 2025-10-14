@@ -1,0 +1,37 @@
+
+{
+    "header": {
+        "searchPlaceholder": "घटना किंवा रेंजर्स शोधा...",
+        "toggleTheme": "थीम बदला",
+        "theme": {
+            "light": "प्रकाश",
+            "dark": "गडद",
+            "system": "सिस्टम"
+        },
+        "toggleLanguage": "भाषा बदला",
+        "toggleNotifications": "सूचना टॉगल करा"
+    },
+    "user": {
+        "name": "प्रशासक वापरकर्ता",
+        "email": "admin@ecoguardian.gov",
+        "role": "अधिकारी",
+        "menu": {
+            "profile": "प्रोफाइल",
+            "settings": "सेटिंग्ज",
+            "logout": "लॉगआउट"
+        }
+    },
+    "nav": {
+        "dashboard": "डॅशबोर्ड",
+        "map": " नकाशा दृश्य",
+        "reports": "अहवाल",
+        "analyzer": "विश्लेषक",
+        "research": "संशोधन प्रयोगशाळा",
+        "community": "कम्युनिटी हब",
+        "engagement": "सहभाग",
+        "manageIncidents": "घटना व्यवस्थापित करा",
+        "alerts": "सूचना",
+        "rangers": "रेंजर्स",
+        "offline": "ऑफलाइन अहवाल"
+    }
+}

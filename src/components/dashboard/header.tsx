@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -12,8 +13,6 @@ import {
   User,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,12 +27,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSidebar } from "../ui/sidebar";
+import { useTranslation } from "@/contexts/language-context";
+import { Input } from "../ui/input";
 
 export default function Header() {
   const isMobile = useIsMobile();
   const { toggleSidebar } = useSidebar();
   const { setTheme } = useTheme();
   const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
+  const { setLanguage, t } = useTranslation();
 
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -54,7 +56,7 @@ export default function Header() {
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search incidents or rangers..."
+              placeholder={t('header.searchPlaceholder')}
               className="w-full appearance-none bg-secondary pl-8 shadow-none md:w-2/3 lg:w-1/3"
             />
           </div>
@@ -67,18 +69,18 @@ export default function Header() {
                 <Button variant="ghost" size="icon" className="rounded-full">
                 <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
+                <span className="sr-only">{t('header.toggleTheme')}</span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
-                Light
+                  {t('header.theme.light')}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
-                Dark
+                  {t('header.theme.dark')}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>
-                System
+                  {t('header.theme.system')}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -87,19 +89,19 @@ export default function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
               <Languages className="h-5 w-5" />
-              <span className="sr-only">Toggle language</span>
+              <span className="sr-only">{t('header.toggleLanguage')}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>English</DropdownMenuItem>
-            <DropdownMenuItem>हिंदी (Hindi)</DropdownMenuItem>
-            <DropdownMenuItem>मराठी (Marathi)</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLanguage('hi')}>हिंदी (Hindi)</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLanguage('mr')}>मराठी (Marathi)</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
         <Button variant="ghost" size="icon" className="rounded-full">
           <Bell className="h-5 w-5" />
-          <span className="sr-only">Toggle notifications</span>
+          <span className="sr-only">{t('header.toggleNotifications')}</span>
         </Button>
 
         {isMobile && (
@@ -115,25 +117,25 @@ export default function Header() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">Admin User</p>
+                  <p className="text-sm font-medium leading-none">{t('user.name')}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    admin@ecoguardian.gov
+                    {t('user.email')}
                   </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
+                <span>{t('user.menu.profile')}</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+                <span>{t('user.menu.settings')}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <LogOut className="mr-2 h-4 w-4" />
-                 <Link href="/">Logout</Link>
+                 <Link href="/">{t('user.menu.logout')}</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

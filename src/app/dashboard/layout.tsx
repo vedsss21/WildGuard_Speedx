@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -48,28 +49,112 @@ import { Icons } from "@/components/icons";
 import Header from "@/components/dashboard/header";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
+import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 
 const NAV_ITEMS = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/dashboard/map", icon: Map, label: "Map View" },
-  { href: "/dashboard/reports", icon: BarChart3, label: "Reports" },
-  { href: "/dashboard/analyzer", icon: Activity, label: "Analyzer" },
-  { href: "/dashboard/research", icon: Beaker, label: "Research Lab" },
-  { href: "/dashboard/community", icon: Handshake, label: "Community Hub" },
-  { href: "/dashboard/engagement", icon: Award, label: "Engagement" },
-  { href: "/dashboard/incidents", icon: ShieldAlert, label: "Manage Incidents" },
-  { href: "/dashboard/alerts", icon: Siren, label: "Alerts" },
-  { href: "/dashboard/rangers", icon: Users, label: "Rangers" },
-  { href: "/dashboard/offline", icon: WifiOff, label: "Offline Reports" },
+  { href: "/dashboard", icon: LayoutDashboard, label: "nav.dashboard" },
+  { href: "/dashboard/map", icon: Map, label: "nav.map" },
+  { href: "/dashboard/reports", icon: BarChart3, label: "nav.reports" },
+  { href: "/dashboard/analyzer", icon: Activity, label: "nav.analyzer" },
+  { href: "/dashboard/research", icon: Beaker, label: "nav.research" },
+  { href: "/dashboard/community", icon: Handshake, label: "nav.community" },
+  { href: "/dashboard/engagement", icon: Award, label: "nav.engagement" },
+  { href: "/dashboard/incidents", icon: ShieldAlert, label: "nav.manageIncidents" },
+  { href: "/dashboard/alerts", icon: Siren, label: "nav.alerts" },
+  { href: "/dashboard/rangers", icon: Users, label: "nav.rangers" },
+  { href: "/dashboard/offline", icon: WifiOff, label: "nav.offline" },
 ];
 
-export default function DashboardLayout({
+function DashboardNav() {
+  const pathname = usePathname();
+  const { t } = useTranslation();
+
+  return (
+     <SidebarMenu>
+      {NAV_ITEMS.map((item) => (
+        <SidebarMenuItem key={item.href}>
+          <SidebarMenuButton
+            asChild
+            isActive={pathname === item.href}
+            tooltip={t(item.label)}
+          >
+            <Link href={item.href}>
+              <item.icon />
+              <span>{t(item.label)}</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
+  )
+}
+
+function UserMenu() {
+  const { t } = useTranslation();
+  const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
+
+  return (
+    <div
+      className={cn(
+        "p-2 rounded-lg flex items-center gap-3 bg-sidebar-accent",
+        "group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-auto group-data-[collapsible=icon]:bg-transparent"
+      )}
+    >
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+            <Avatar className="h-10 w-10 border-2 border-primary">
+              <AvatarImage
+                src={userProfileImage?.imageUrl}
+                alt="User avatar"
+                data-ai-hint={userProfileImage?.imageHint}
+              />
+              <AvatarFallback>AD</AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">{t('user.name')}</p>
+              <p className="text-xs leading-none text-muted-foreground">
+                {t('user.email')}
+              </p>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <User className="mr-2 h-4 w-4" />
+            <span>{t('user.menu.profile')}</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>{t('user.menu.settings')}</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <LogOut className="mr-2 h-4 w-4" />
+            <Link href="/">{t('user.menu.logout')}</Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <div className="duration-200 flex flex-col transition-opacity ease-linear group-data-[collapsible=icon]:opacity-0">
+        <span className="font-semibold text-sidebar-foreground">{t('user.name')}</span>
+        <span className="text-xs text-sidebar-foreground/70">
+          {t('user.role')}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+function DashboardLayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
+  const { t } = useTranslation();
 
   return (
     <SidebarProvider>
@@ -89,77 +174,11 @@ export default function DashboardLayout({
         </SidebarHeader>
 
         <SidebarContent className="p-2">
-          <SidebarMenu>
-            {NAV_ITEMS.map((item) => (
-              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === item.href}
-                  tooltip={item.label}
-                >
-                  <Link href={item.href}>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
+          <DashboardNav />
         </SidebarContent>
 
         <SidebarFooter className="p-2 mt-auto border-t border-sidebar-border">
-          <div
-            className={cn(
-              "p-2 rounded-lg flex items-center gap-3 bg-sidebar-accent",
-              "group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-auto group-data-[collapsible=icon]:bg-transparent"
-            )}
-          >
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
-                  <Avatar className="h-10 w-10 border-2 border-primary">
-                    <AvatarImage
-                      src={userProfileImage?.imageUrl}
-                      alt="User avatar"
-                      data-ai-hint={userProfileImage?.imageHint}
-                    />
-                    <AvatarFallback>AD</AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">Admin User</p>
-                    <p className="text-xs leading-none text-muted-foreground">
-                      admin@ecoguardian.gov
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <Link href="/">Logout</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <div className="duration-200 flex flex-col transition-opacity ease-linear group-data-[collapsible=icon]:opacity-0">
-              <span className="font-semibold text-sidebar-foreground">Admin User</span>
-              <span className="text-xs text-sidebar-foreground/70">
-                Official
-              </span>
-            </div>
-          </div>
+          <UserMenu />
         </SidebarFooter>
       </Sidebar>
 
@@ -171,4 +190,17 @@ export default function DashboardLayout({
       </SidebarInset>
     </SidebarProvider>
   );
+}
+
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <LanguageProvider>
+      <DashboardLayoutContent>{children}</DashboardLayoutContent>
+    </LanguageProvider>
+  )
 }
