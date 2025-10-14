@@ -26,13 +26,12 @@ function AnimatedNumber({ n }: { n: number }) {
 function LandingPageContent() {
   const { t } = useTranslation();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-image');
+  const wildlifeCollage = PlaceHolderImages.find(p => p.id === 'wildlife-collage');
 
   const ref1 = useRef(null);
   const isInView1 = useInView(ref1, { once: true });
   const ref2 = useRef(null);
   const isInView2 = useInView(ref2, { once: true });
-  const ref3 = useRef(null);
-  const isInView3 = useInView(ref3, { once: true });
 
   const features = [
     {
@@ -64,8 +63,8 @@ function LandingPageContent() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-14 flex items-center bg-background/95 backdrop-blur-sm fixed top-0 w-full z-50">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <header className="px-4 lg:px-6 h-14 flex items-center bg-background/80 backdrop-blur-sm fixed top-0 w-full z-50">
         <Link href="/" className="flex items-center justify-center">
           <Icons.Logo className="h-6 w-6 text-primary" />
           <span className="sr-only">EcoGuardian</span>
@@ -84,9 +83,16 @@ function LandingPageContent() {
           </Button>
         </nav>
       </header>
-      <main className="flex-1 landing-main">
-        <section className="relative w-full pt-24 md:pt-32 lg:pt-40 border-b">
-          <div className="container px-4 md:px-6 grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_650px] items-center">
+      <main className="flex-1">
+        <section className="relative w-full pt-24 md:pt-32 lg:pt-40 border-b overflow-hidden">
+        <div 
+            className="absolute inset-0 bg-cover bg-center opacity-10" 
+            style={{backgroundImage: `url(${heroImage?.imageUrl})`}}
+            data-ai-hint={heroImage?.imageHint}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
+
+          <div className="container px-4 md:px-6 grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2 items-center relative z-20">
             <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -94,7 +100,7 @@ function LandingPageContent() {
                 transition={{ duration: 0.5 }}
                 className="space-y-4"
               >
-                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary via-green-600 to-secondary-foreground">
+                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary via-green-500 to-primary/80">
                   {t('landing.title')}
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl mx-auto lg:mx-0">
@@ -120,17 +126,19 @@ function LandingPageContent() {
               </motion.div>
             </div>
              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                initial={{ opacity: 0, scale: 0.9, y: 50 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1, type: 'spring', stiffness: 100 }}
+                className="w-full h-full"
              >
                 <Image
-                    src={heroImage?.imageUrl || "https://picsum.photos/seed/hero/650/650"}
+                    src={wildlifeCollage?.imageUrl || "https://picsum.photos/seed/hero/650/650"}
                     alt="Hero"
                     width={650}
                     height={650}
-                    className="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-                    data-ai-hint={heroImage?.imageHint}
+                    className="mx-auto aspect-video sm:aspect-square overflow-hidden rounded-2xl object-cover sm:w-full lg:order-last shadow-2xl shadow-primary/10"
+                    data-ai-hint={wildlifeCollage?.imageHint}
+                    priority
                 />
              </motion.div>
           </div>
@@ -145,7 +153,7 @@ function LandingPageContent() {
             >
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
-                  <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm">{t('landing.features.supertitle')}</div>
+                  <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm text-primary font-semibold">{t('landing.features.supertitle')}</div>
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t('landing.features.title')}</h2>
                   <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                     {t('landing.features.description')}
@@ -161,7 +169,7 @@ function LandingPageContent() {
                   animate={isInView1 ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.1 * (index + 1) }}
                 >
-                  <Card className="h-full">
+                  <Card className="h-full hover:shadow-lg transition-shadow duration-300">
                     <CardHeader className="flex flex-col items-center text-center">
                       {feature.icon}
                       <CardTitle className="mt-4">{feature.title}</CardTitle>
@@ -176,13 +184,13 @@ function LandingPageContent() {
           </div>
         </section>
 
-        <section ref={ref2} className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
+        <section ref={ref2} className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
           <div className="container px-4 md:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView2 ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="grid items-center gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]"
+              className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12"
             >
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
@@ -212,7 +220,7 @@ function LandingPageContent() {
                     alt="Rangers"
                     width={600}
                     height={400}
-                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
+                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full shadow-lg"
                     data-ai-hint="wildlife rangers team"
                 />
               </motion.div>
