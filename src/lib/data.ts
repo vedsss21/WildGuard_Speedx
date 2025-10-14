@@ -99,3 +99,23 @@ export const recentIncidentsData = [
     actionTaken: "Damage assessment complete. Report filed.",
   },
 ];
+
+export const communityLeaderboard = [
+  { rank: 1, name: "Aarav Sharma", points: 1250, reports: 42, avatarUrl: PlaceHolderImages.find(p => p.id === 'avatar-1')?.imageUrl || '' },
+  { rank: 2, name: "Diya Patel", points: 1100, reports: 35, avatarUrl: PlaceHolderImages.find(p => p.id === 'avatar-2')?.imageUrl || '' },
+  { rank: 3, name: "Rohan Das", points: 980, reports: 31, avatarUrl: PlaceHolderImages.find(p => p.id === 'avatar-3')?.imageUrl || '' },
+  { rank: 4, name: "Isha Reddy", points: 850, reports: 28, avatarUrl: PlaceHolderImages.find(p => p.id === 'avatar-4')?.imageUrl || '' },
+];
+
+export const communityEvents = [
+    {
+        title: "Workshop: Coexisting with Leopards",
+        date: "August 15, 2024",
+        location: "Vihighar Community Hall",
+    },
+    {
+        title: "River Cleanup Drive",
+        date: "August 22, 2024",
+        location: "Mula River Bank",
+    }
+]

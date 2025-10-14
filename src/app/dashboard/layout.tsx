@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import {
+  Award,
   BarChart3,
   Bell,
   Handshake,
@@ -49,6 +50,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/map", icon: Map, label: "Map View" },
   { href: "/dashboard/reports", icon: BarChart3, label: "Reports" },
   { href: "/dashboard/community", icon: Handshake, label: "Community Hub" },
+  { href: "/dashboard/engagement", icon: Award, label: "Engagement" },
   { href: "/dashboard/incidents", icon: ShieldAlert, label: "Incidents" },
   { href: "/dashboard/rangers", icon: Users, label: "Rangers" },
 ];
