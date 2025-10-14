@@ -1,6 +1,7 @@
+
 "use client";
 
-import { Bar, BarChart, Line, LineChart, XAxis, YAxis, CartesianGrid } from "recharts";
+import { Bar, BarChart, Line, LineChart, XAxis, YAxis, CartesianGrid, Area, AreaChart } from "recharts";
 import {
   Card,
   CardContent,
@@ -20,6 +21,7 @@ import { useTranslation } from "@/contexts/language-context";
 const incidentTypeChartConfig = {
   incidents: {
     label: "Incidents",
+    color: "hsl(var(--chart-1))",
   },
   crop: {
     label: "Crop Damage",
@@ -62,20 +64,30 @@ export default function IncidentCharts() {
         <CardContent>
           <div className="h-[300px] w-full">
             <ChartContainer config={incidentTypeChartConfig} className="w-full h-full">
-              <BarChart data={incidentTypeData.map(d => ({...d, type: t(`incidentTypesShort.${d.type.slice(0,3).toLowerCase()}` as any)}))} accessibilityLayer>
-                <CartesianGrid vertical={false} />
+              <BarChart data={incidentTypeData.map(d => ({...d, type: t(`incidentTypesShort.${d.type.slice(0,3).toLowerCase()}` as any)}))} accessibilityLayer margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                 <defs>
+                    <linearGradient id="fillIncidents" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
+                    </linearGradient>
+                </defs>
+                <CartesianGrid vertical={false} strokeDasharray="3 3"/>
                 <XAxis
                   dataKey="type"
                   tickLine={false}
                   tickMargin={10}
                   axisLine={false}
                 />
-                <YAxis />
+                <YAxis tickLine={false} axisLine={false}/>
                 <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dot" />}
+                    cursor={false}
+                    content={<ChartTooltipContent 
+                        indicator="dot" 
+                        formatter={(value, name) => [`${value} incidents`, t('charts.byType.title')]}
+                    />} 
+                    
                 />
-                <Bar dataKey="incidents" radius={4} />
+                <Bar dataKey="incidents" radius={[8, 8, 0, 0]} fill="url(#fillIncidents)"/>
               </BarChart>
             </ChartContainer>
           </div>
@@ -89,26 +101,33 @@ export default function IncidentCharts() {
         <CardContent>
           <div className="h-[300px] w-full">
             <ChartContainer config={incidentTrendChartConfig} className="w-full h-full">
-              <LineChart
+              <AreaChart
                 data={incidentTrendData.map(d => ({...d, month: t(`months.${d.month.toLowerCase()}` as any)}))}
-                margin={{ top: 5, right: 20, left: -10, bottom: 0 }}
+                margin={{ top: 10, right: 20, left: -10, bottom: 0 }}
                 accessibilityLayer
               >
+                <defs>
+                    <linearGradient id="fillTrend" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1}/>
+                    </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="month" />
-                <YAxis />
+                <XAxis dataKey="month" tickLine={false} axisLine={false}/>
+                <YAxis tickLine={false} axisLine={false}/>
                 <ChartTooltip
                   cursor={false}
                   content={<ChartTooltipContent indicator="dot" />}
                 />
-                <Line
+                <Area
                   type="monotone"
                   dataKey="incidents"
-                  stroke="var(--color-incidents)"
-                  strokeWidth={2}
-                  dot={true}
+                  stroke="hsl(var(--primary))"
+                  fill="url(#fillTrend)"
+                  strokeWidth={3}
+                  dot={{ r: 6, stroke: "hsl(var(--background))", strokeWidth: 2 }}
                 />
-              </LineChart>
+              </AreaChart>
             </ChartContainer>
           </div>
         </CardContent>
