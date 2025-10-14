@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -32,7 +33,7 @@ function LandingPageContent() {
           </Button>
         </nav>
       </header>
-      <main className="flex-1">
+      <main className="flex-1 landing-main">
         <section className="relative w-full pt-12 md:pt-24 lg:pt-32 border-b">
           <div className="container px-4 md:px-6 grid gap-6 lg:grid-cols-[1fr_550px] lg:gap-12 xl:grid-cols-[1fr_650px] items-center">
             <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">

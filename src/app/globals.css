@@ -8,28 +8,25 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 80 40% 30%;
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --primary: 80 60% 45%;
     --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 13% 91%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 13% 91%;
-    --accent-foreground: 220.9 39.3% 11%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 60 9.1% 97.8%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 80 40% 30%;
-    --radius: 0.75rem;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 80 60% 45%;
 
-    --chart-1: 80 40% 30%;
+    --chart-1: 120 50% 40%;
     --chart-2: 160 60% 45%;
     --chart-3: 43.2 95.5% 56.9%;
     --chart-4: 22.2 83.2% 53.3%;
@@ -50,7 +47,7 @@ body {
     --foreground: 210 20% 98%;
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
-    --primary: 80 40% 45%;
+    --primary: 80 60% 45%;
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
@@ -62,9 +59,9 @@ body {
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
-    --ring: 80 40% 45%;
+    --ring: 80 60% 45%;
 
-    --chart-1: 80 40% 45%;
+    --chart-1: 120 50% 40%;
     --chart-2: 160 60% 45%;
     --chart-3: 43.2 95.5% 56.9%;
     --chart-4: 22.2 83.2% 53.3%;
@@ -110,6 +107,30 @@ main.dashboard-main::before {
 }
 
 main.dashboard-main > * {
+    position: relative;
+    z-index: 2;
+}
+
+main.landing-main {
+  position: relative;
+  background-image: url('https://storage.googleapis.com/aifirebase-cloud-build-public-release-artifacts/8e97f485-a13a-4a25-b44c-9f6920d3f237/image.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+main.landing-main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(var(--background), 0.5);
+  z-index: 1;
+}
+
+main.landing-main > * {
     position: relative;
     z-index: 2;
 }
