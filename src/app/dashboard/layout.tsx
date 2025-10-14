@@ -18,6 +18,7 @@ import {
   ShieldAlert,
   User,
   Users,
+  Siren,
 } from "lucide-react";
 
 import {
@@ -55,7 +56,8 @@ const NAV_ITEMS = [
   { href: "/dashboard/research", icon: Beaker, label: "Research Lab" },
   { href: "/dashboard/community", icon: Handshake, label: "Community Hub" },
   { href: "/dashboard/engagement", icon: Award, label: "Engagement" },
-  { href: "/dashboard/incidents", icon: ShieldAlert, label: "Incidents" },
+  { href: "/dashboard/incidents", icon: ShieldAlert, label: "Manage Incidents" },
+  { href: "/dashboard/alerts", icon: Siren, label: "Alerts" },
   { href: "/dashboard/rangers", icon: Users, label: "Rangers" },
 ];
 
