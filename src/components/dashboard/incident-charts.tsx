@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Bar, BarChart, Cell, Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -19,14 +19,9 @@ import { incidentTrendData, incidentTypeData } from "@/lib/data";
 import { useTranslation } from "@/contexts/language-context";
 
 const incidentTypeChartConfig = {
-  "Crop Damage": { label: "Crop Damage", color: "hsl(var(--chart-1))" },
-  "Property Damage": { label: "Property Damage", color: "hsl(var(--chart-2))" },
-  "Animal Attack": { label: "Animal Attack", color: "hsl(var(--chart-3))" },
-  "Sighting": { label: "Sighting", color: "hsl(var(--chart-4))" },
-  "Other": { label: "Other", color: "hsl(var(--chart-5))" },
   incidents: {
     label: "Incidents",
-    color: "hsl(var(--primary))",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
@@ -51,6 +46,20 @@ export default function IncidentCharts() {
         <CardContent>
           <div className="h-[300px] w-full">
             <ChartContainer config={incidentTypeChartConfig} className="w-full h-full">
+              <defs>
+                <linearGradient id="fillBar" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+              </defs>
               <BarChart 
                 data={incidentTypeData.map(d => ({...d, type: t(`incidentTypes.${d.type.toLowerCase().replace(/ /g, '')}` as any, d.type)}))} 
                 accessibilityLayer 
@@ -72,11 +81,13 @@ export default function IncidentCharts() {
                         formatter={(value, name, item) => [`${value}`, `${item.payload.type} Incidents`]}
                     />} 
                 />
-                <Bar dataKey="incidents" radius={[8, 8, 0, 0]}>
-                    {incidentTypeData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={incidentTypeChartConfig[entry.type as keyof typeof incidentTypeChartConfig]?.color || trendChartConfig.incidents.color} />
-                    ))}
-                </Bar>
+                <Bar 
+                  dataKey="incidents" 
+                  radius={[8, 8, 0, 0]} 
+                  fill="url(#fillBar)"
+                  stroke="hsl(var(--chart-1))"
+                  strokeWidth={2}
+                />
               </BarChart>
             </ChartContainer>
           </div>
