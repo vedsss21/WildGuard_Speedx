@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -248,6 +249,13 @@ export default function IncidentsPage() {
                   .getAllColumns()
                   .filter((column) => column.getCanHide())
                   .map((column) => {
+                    const translationKey = `incidents.table.${column.id}`;
+                    let translation = t(translationKey);
+                    if (typeof translation === 'object' && column.id === 'actions') {
+                      translation = t('incidents.table.actions.title');
+                    } else if (typeof translation === 'object') {
+                      translation = column.id; // Fallback to column id
+                    }
                     return (
                       <DropdownMenuCheckboxItem
                         key={column.id}
@@ -257,7 +265,7 @@ export default function IncidentsPage() {
                           column.toggleVisibility(!!value)
                         }
                       >
-                        {t(`incidents.table.${column.id}` as any, column.id)}
+                        {translation}
                       </DropdownMenuCheckboxItem>
                     );
                   })}
