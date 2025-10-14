@@ -1,21 +1,21 @@
-import {initializeApp, getApps} from 'firebase-admin/app';
-import {getFirestore, Timestamp} from 'firebase-admin/firestore';
 
-if (!getApps().length) {
-  initializeApp();
-}
+'use server';
 
-const db = getFirestore();
+import { getFirestore, collection, getDocs, Timestamp } from 'firebase/firestore';
+import { initializeFirebase } from '@/firebase';
+
+// Initialize Firebase client-side
+const { firestore } = initializeFirebase();
 
 export async function getIncidents() {
-  const incidentsCollection = db.collection('incidents');
-  const snapshot = await incidentsCollection.get();
+  const incidentsCollection = collection(firestore, 'incidents');
+  const snapshot = await getDocs(incidentsCollection);
   if (snapshot.empty) {
     return [];
   }
   return snapshot.docs.map(doc => {
     const data = doc.data();
-    // Convert Firestore Timestamp to a serializable date string
+    // Convert Firestore Timestamp to a serializable date string if it exists
     const reportedTime = data.reportedTime instanceof Timestamp 
       ? data.reportedTime.toDate().toISOString() 
       : data.reportedTime;
@@ -23,7 +23,7 @@ export async function getIncidents() {
     return {
       id: doc.id,
       ...data,
-      reportedTime,
+      date: reportedTime, // Ensure the 'date' field is populated for the tool
     };
   });
 }
