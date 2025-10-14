@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import {
+  Activity,
   Award,
   BarChart3,
   Bell,
@@ -49,6 +50,7 @@ const NAV_ITEMS = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/dashboard/map", icon: Map, label: "Map View" },
   { href: "/dashboard/reports", icon: BarChart3, label: "Reports" },
+  { href: "/dashboard/analyzer", icon: Activity, label: "Analyzer" },
   { href: "/dashboard/community", icon: Handshake, label: "Community Hub" },
   { href: "/dashboard/engagement", icon: Award, label: "Engagement" },
   { href: "/dashboard/incidents", icon: ShieldAlert, label: "Incidents" },
