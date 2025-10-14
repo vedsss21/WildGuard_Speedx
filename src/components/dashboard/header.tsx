@@ -4,6 +4,7 @@ import {
   Bell,
   Languages,
   LogOut,
+  Menu,
   Search,
   Settings,
   User,
@@ -23,14 +24,25 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useSidebar } from "../ui/sidebar";
 
 export default function Header() {
   const isMobile = useIsMobile();
+  const { toggleSidebar } = useSidebar();
   const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
 
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4 md:px-6">
-      <SidebarTrigger className="md:hidden" />
+      <div className="md:hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleSidebar}
+        >
+          <Menu className="h-6 w-6" />
+          <span className="sr-only">Toggle sidebar</span>
+        </Button>
+      </div>
 
       <div className="w-full flex-1">
         <form>

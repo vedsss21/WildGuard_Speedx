@@ -33,18 +33,19 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
-      <Card className="w-full max-w-sm">
+    <div className="relative flex items-center justify-center min-h-screen bg-background overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent -z-10"/>
+      <Card className="w-full max-w-sm shadow-2xl">
         <form onSubmit={handleSignup}>
           <CardHeader className="text-center">
-            <div className="flex justify-center items-center gap-2 mb-2">
+            <Link href="/" className="flex justify-center items-center gap-2 mb-4">
               <Icons.Logo className="h-8 w-8 text-primary" />
               <CardTitle className="text-2xl font-headline">
                 EcoGuardian
               </CardTitle>
-            </div>
+            </Link>
             <CardDescription>
-              Create an account to get started.
+              Create an account to join the mission.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -84,11 +85,13 @@ export default function SignupPage() {
             <Button type="submit" className="w-full">
               Create Account
             </Button>
-            <div className="text-sm text-center">
+            <div className="text-sm text-center text-muted-foreground">
                 Already have an account?{" "}
-                <Link href="/login" className="underline">
-                    Login
-                </Link>
+                <Button variant="link" asChild className="p-0 h-auto">
+                    <Link href="/login">
+                        Login
+                    </Link>
+                </Button>
             </div>
           </CardFooter>
         </form>

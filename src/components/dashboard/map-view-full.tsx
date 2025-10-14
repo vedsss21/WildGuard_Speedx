@@ -10,7 +10,6 @@ import { Badge } from '../ui/badge';
 import { cn } from '@/lib/utils';
 import ReactDOMServer from 'react-dom/server';
 
-
 // Mock coordinates for incidents
 const incidentLocations = [
     { lat: 18.5204, lng: 73.8567 }, // Pune
@@ -36,9 +35,9 @@ const PopupContent = ({ incident }: { incident: (typeof recentIncidentsData)[0] 
                 className={cn(
                     "text-xs",
                     incident.status === "Resolved" &&
-                    "bg-green-600/20 text-green-700 hover:bg-green-600/30 border-green-600/20",
+                    "bg-green-100 text-green-800 border-green-200",
                     incident.status === "Active" &&
-                    "bg-red-600/20 text-red-700 hover:bg-red-600/30 border-red-600/20"
+                    "bg-red-100 text-red-800 border-red-200"
                 )}
             >
                 {incident.status}
