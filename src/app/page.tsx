@@ -70,7 +70,7 @@ function LandingPageContent() {
         </section>
       </main>
       <footer className="flex items-center justify-center p-6 bg-background">
-        <p className="text-sm text-muted-foreground">{t('landing.footer')}</p>
+        <p className="text-sm text-muted-foreground">© 2025 EcoGuardian. All rights reserved.</p>
       </footer>
     </div>
   );

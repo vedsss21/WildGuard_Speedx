@@ -188,6 +188,9 @@ function DashboardLayoutContent({
         <main className="dashboard-main min-h-[calc(100vh-3.5rem)] p-4 md:p-8">
           {children}
         </main>
+        <footer className="flex items-center justify-center p-6 bg-background relative z-10">
+            <p className="text-sm text-muted-foreground">© 2025 EcoGuardian. All rights reserved.</p>
+        </footer>
       </SidebarInset>
     </SidebarProvider>
   );
