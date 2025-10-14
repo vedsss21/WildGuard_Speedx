@@ -1,5 +1,11 @@
 
-import MapView from "@/components/dashboard/map-view-full";
+import { Skeleton } from "@/components/ui/skeleton";
+import dynamic from "next/dynamic";
+
+const MapViewFull = dynamic(() => import("@/components/dashboard/map-view-full"), {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[calc(100vh-10rem)]" />,
+});
 
 export default function MapPage() {
     return (
@@ -8,7 +14,7 @@ export default function MapPage() {
                 Live Map
             </h1>
             <div className="w-full h-[calc(100vh-10rem)]">
-                <MapView />
+                <MapViewFull />
             </div>
         </div>
     );

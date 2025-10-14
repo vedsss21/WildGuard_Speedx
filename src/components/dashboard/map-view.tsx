@@ -9,7 +9,13 @@ import {
 import { MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import MapViewFull from "./map-view-full";
+import dynamic from "next/dynamic";
+import { Skeleton } from "../ui/skeleton";
+
+const MapViewFull = dynamic(() => import("./map-view-full"), {
+    ssr: false,
+    loading: () => <Skeleton className="h-full w-full" />,
+});
 
 export default function MapView() {
     return (
