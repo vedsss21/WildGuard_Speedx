@@ -95,8 +95,8 @@ function UserMenu() {
   return (
     <div
       className={cn(
-        "p-2 rounded-lg flex items-center gap-3 bg-sidebar-accent",
-        "group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-auto group-data-[collapsible=icon]:bg-transparent"
+        "p-2 rounded-lg flex items-center gap-3",
+        "group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full"
       )}
     >
       <DropdownMenu>
