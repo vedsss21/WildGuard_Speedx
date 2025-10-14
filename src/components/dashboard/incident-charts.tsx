@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Bar, BarChart, Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Area, AreaChart, CartesianGrid, XAxis, YAxis, Cell } from "recharts";
 import {
   Card,
   CardContent,
@@ -70,7 +70,7 @@ export default function IncidentCharts() {
                 <Bar 
                   dataKey="incidents" 
                   radius={[8, 8, 0, 0]} 
-                  fill="url(#fillBar)"
+                  fill="hsl(var(--chart-1))"
                   stroke="hsl(var(--chart-1))"
                   strokeWidth={2}
                 />
@@ -103,7 +103,7 @@ export default function IncidentCharts() {
                   type="monotone"
                   dataKey="incidents"
                   stroke="hsl(var(--primary))"
-                  fill="url(#fillTrend)"
+                  fill="hsl(var(--primary))"
                   strokeWidth={3}
                   dot={{ r: 6, stroke: "hsl(var(--background))", strokeWidth: 2 }}
                 />
