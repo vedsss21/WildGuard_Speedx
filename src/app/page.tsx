@@ -1,78 +1,69 @@
-"use client";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Icons } from '@/components/icons';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Image from 'next/image';
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Leaf } from "lucide-react";
-
-export default function LoginPage() {
-  const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real app, you'd have authentication logic here.
-    // For this demo, we'll just redirect to the dashboard.
-    router.push("/dashboard");
-  };
+export default function LandingPage() {
+  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-image');
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
-      <Card className="w-full max-w-sm">
-        <form onSubmit={handleLogin}>
-          <CardHeader className="text-center">
-            <div className="flex justify-center items-center gap-2 mb-2">
-              <Leaf className="h-8 w-8 text-primary" />
-              <CardTitle className="text-2xl font-headline">
-                EcoGuardian
-              </CardTitle>
-            </div>
-            <CardDescription>
-              Login to access the Wildlife-Human Conflict Dashboard.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="username"
-                type="text"
-                placeholder="official_user"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+    <div className="flex flex-col min-h-screen">
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+        <Link href="/" className="flex items-center justify-center">
+          <Icons.Logo className="h-6 w-6 text-primary" />
+          <span className="sr-only">EcoGuardian</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link
+            href="/login"
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            Login
+          </Link>
+          <Button asChild>
+            <Link href="/signup">Sign Up</Link>
+          </Button>
+        </nav>
+      </header>
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline">
+                    EcoGuardian: Protecting Wildlife and Communities
+                  </h1>
+                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                    Leveraging cutting-edge technology to monitor, analyze, and mitigate human-wildlife conflict for a balanced coexistence.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <Button asChild size="lg">
+                    <Link href="/dashboard">
+                      Go to Dashboard
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg">
+                    <Link href="/signup">
+                      Get Started
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+              <Image
+                src={heroImage?.imageUrl || "https://picsum.photos/seed/hero/600/400"}
+                alt="Hero"
+                width={600}
+                height={400}
+                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
+                data-ai-hint={heroImage?.imageHint}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

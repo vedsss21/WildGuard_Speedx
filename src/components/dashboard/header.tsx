@@ -19,13 +19,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -36,7 +29,7 @@ export default function Header() {
   const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-card px-4 md:px-6">
+    <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4 md:px-6">
       <SidebarTrigger className="md:hidden" />
 
       <div className="w-full flex-1">
@@ -46,7 +39,7 @@ export default function Header() {
             <Input
               type="search"
               placeholder="Search incidents or rangers..."
-              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              className="w-full appearance-none bg-secondary pl-8 shadow-none md:w-2/3 lg:w-1/3"
             />
           </div>
         </form>
@@ -76,7 +69,7 @@ export default function Header() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8">
+                <Avatar className="h-8 w-8 border-2 border-primary">
                   <AvatarImage src={userProfileImage?.imageUrl} alt="User avatar" data-ai-hint={userProfileImage?.imageHint}/>
                   <AvatarFallback>AD</AvatarFallback>
                 </Avatar>

@@ -35,6 +35,12 @@
       "description": "Main user profile avatar",
       "imageUrl": "https://picsum.photos/seed/mainuser/40/40",
       "imageHint": "woman portrait"
+    },
+    {
+      "id": "hero-image",
+      "description": "Hero image for the landing page",
+      "imageUrl": "https://picsum.photos/seed/hero/600/400",
+      "imageHint": "wildlife nature"
     }
   ]
 }

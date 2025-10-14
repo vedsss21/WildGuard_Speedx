@@ -18,13 +18,6 @@ import {
 } from "lucide-react";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   SidebarProvider,
   Sidebar,
   SidebarHeader,
@@ -74,7 +67,7 @@ export default function DashboardLayout({
         className="border-sidebar-border"
         defaultOpen={true}
       >
-        <SidebarHeader className="h-14">
+        <SidebarHeader className="h-14 border-b border-sidebar-border">
           <Link
             href="/dashboard"
             className="duration-200 flex items-center gap-2 text-sidebar-foreground transition-opacity ease-linear group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:opacity-0"
@@ -103,17 +96,17 @@ export default function DashboardLayout({
           </SidebarMenu>
         </SidebarContent>
 
-        <SidebarFooter className="p-2">
+        <SidebarFooter className="p-2 mt-auto border-t border-sidebar-border">
           <div
             className={cn(
               "p-2 rounded-lg flex items-center gap-3 bg-sidebar-accent",
-              "group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-auto group-data-[collapsible=icon]:bg-transparent"
+              "group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-auto group-data-[collapsible=icon]:bg-transparent"
             )}
           >
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
-                  <Avatar className="h-10 w-10">
+                  <Avatar className="h-10 w-10 border-2 border-primary">
                     <AvatarImage
                       src={userProfileImage?.imageUrl}
                       alt="User avatar"
@@ -161,7 +154,7 @@ export default function DashboardLayout({
 
       <SidebarInset>
         <Header />
-        <main className="min-h-[calc(100vh-3.5rem)] p-4 md:p-8">
+        <main className="min-h-[calc(100vh-3.5rem)] p-4 md:p-8 bg-secondary/50">
           {children}
         </main>
       </SidebarInset>
