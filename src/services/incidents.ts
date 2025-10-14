@@ -1,4 +1,3 @@
-
 'use server';
 
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
@@ -6,19 +5,22 @@ import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 
 // Initialize Firebase Admin SDK
 if (!getApps().length) {
-  // If a service account key is available as an environment variable, use it.
-  // This is common for production environments.
-  if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
-    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
-    initializeApp({
-      credential: cert(serviceAccount),
-    });
-  } else {
-    // For local development, you might not have the service account key set.
-    // The Admin SDK can sometimes discover credentials automatically in certain environments.
-    // If not, you might need to set up GOOGLE_APPLICATION_CREDENTIALS.
-    // Initializing without credentials will work for emulators.
-    initializeApp();
+  try {
+    // Try to initialize with service account from environment variables (common for production)
+    if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+      const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+      initializeApp({
+        credential: cert(serviceAccount),
+      });
+    } else {
+      // For local development, initializing without credentials will work for emulators.
+      // In a deployed environment, it might auto-discover credentials.
+      initializeApp();
+    }
+  } catch (error) {
+    console.error("Firebase Admin SDK initialization failed:", error);
+    // If initialization fails, subsequent Firestore calls will fail,
+    // but this prevents the app from crashing on startup.
   }
 }
 
@@ -26,7 +28,7 @@ const firestore = getFirestore();
 
 export async function getIncidents() {
   const incidentsCollection = firestore.collection('incidents');
-  const snapshot = await getDocs(incidentsCollection);
+  const snapshot = await incidentsCollection.get();
   if (snapshot.empty) {
     return [];
   }

@@ -15,11 +15,12 @@ export const getIncidentsTool = ai.defineTool(
     outputSchema: z.array(
       z.object({
         id: z.string(),
-        type: z.string().optional(),
+        incidentType: z.string().optional(),
         location: z.string().optional(),
-        date: z.string(),
+        reportedTime: z.string(),
         status: z.string().optional(),
         actionTaken: z.string().optional(),
+        animalType: z.string().optional(),
       })
     ),
   },
