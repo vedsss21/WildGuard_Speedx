@@ -5,10 +5,13 @@ import {
   Languages,
   LogOut,
   Menu,
+  Moon,
   Search,
   Settings,
+  Sun,
   User,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,6 +32,7 @@ import { useSidebar } from "../ui/sidebar";
 export default function Header() {
   const isMobile = useIsMobile();
   const { toggleSidebar } = useSidebar();
+  const { setTheme } = useTheme();
   const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
 
   return (
@@ -57,7 +61,28 @@ export default function Header() {
         </form>
       </div>
       
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
