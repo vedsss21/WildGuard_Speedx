@@ -57,7 +57,7 @@ export default function OfflinePage() {
              </p>
           </CardContent>
           <CardFooter>
-            <Button className="w-full" disabled>
+            <Button className="w-full">
               {t('offline.generate.button')}
             </Button>
           </CardFooter>
