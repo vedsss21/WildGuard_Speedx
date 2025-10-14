@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -97,6 +98,7 @@ function UserMenu() {
     <div
       className={cn(
         "p-2 rounded-lg flex items-center gap-3",
+        "group-data-[collapsible=icon]:p-1 group-data-[collapsible=icon]:justify-center"
       )}
     >
       <DropdownMenu>
@@ -138,7 +140,7 @@ function UserMenu() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <div className="duration-200 flex flex-col transition-opacity ease-linear">
+      <div className="duration-200 flex flex-col transition-opacity ease-linear group-data-[collapsible=icon]:hidden">
         <span className="font-semibold text-sidebar-foreground">{t('user.name')}</span>
         <span className="text-xs text-sidebar-foreground/70">
           {t('user.role')}
