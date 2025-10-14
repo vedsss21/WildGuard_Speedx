@@ -14,7 +14,7 @@ body {
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 80 39% 35%;
+    --primary: 80 40% 30%;
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 220 13% 91%;
     --secondary-foreground: 220.9 39.3% 11%;
@@ -26,19 +26,14 @@ body {
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 80 39% 35%;
+    --ring: 80 40% 30%;
     --radius: 0.75rem;
 
-    --chart-1: 80 39% 35%;
+    --chart-1: 80 40% 30%;
     --chart-2: 160 60% 45%;
     --chart-3: 43.2 95.5% 56.9%;
     --chart-4: 22.2 83.2% 53.3%;
     --chart-5: 342.1 76.2% 56.3%;
-
-    --color-chart1-stop-1: hsl(var(--chart-1));
-    --color-chart1-stop-2: hsl(var(--chart-1));
-    --color-primary-stop-1: hsl(var(--primary));
-    --color-primary-stop-2: hsl(var(--primary));
 
     --sidebar-background: 80 40% 15%;
     --sidebar-foreground: 210 40% 98%;
@@ -55,9 +50,7 @@ body {
     --foreground: 210 20% 98%;
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 80 39% 45%;
+    --primary: 80 40% 45%;
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
@@ -69,18 +62,13 @@ body {
     --destructive-foreground: 60 9.1% 97.8%;
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
-    --ring: 80 39% 45%;
+    --ring: 80 40% 45%;
 
-    --chart-1: 80 39% 45%;
+    --chart-1: 80 40% 45%;
     --chart-2: 160 60% 45%;
     --chart-3: 43.2 95.5% 56.9%;
     --chart-4: 22.2 83.2% 53.3%;
     --chart-5: 342.1 76.2% 56.3%;
-
-    --color-chart1-stop-1: hsl(var(--chart-1));
-    --color-chart1-stop-2: hsl(var(--chart-1));
-    --color-primary-stop-1: hsl(var(--primary));
-    --color-primary-stop-2: hsl(var(--primary));
 
     --sidebar-background: 80 40% 15%;
     --sidebar-foreground: 210 40% 98%;
@@ -100,4 +88,28 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+main.dashboard-main {
+  position: relative;
+  background-image: url('https://storage.googleapis.com/aifirebase-cloud-build-public-release-artifacts/0919a84f-1785-4131-b7d1-a3f2824e8e19/image.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+main.dashboard-main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(var(--background), 0.8);
+  z-index: 1;
+}
+
+main.dashboard-main > * {
+    position: relative;
+    z-index: 2;
 }

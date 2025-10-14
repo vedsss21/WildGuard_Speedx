@@ -185,7 +185,7 @@ function DashboardLayoutContent({
 
       <SidebarInset>
         <Header />
-        <main className="min-h-[calc(100vh-3.5rem)] p-4 md:p-8 bg-secondary/50">
+        <main className="dashboard-main min-h-[calc(100vh-3.5rem)] p-4 md:p-8">
           {children}
         </main>
       </SidebarInset>
