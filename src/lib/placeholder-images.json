@@ -39,7 +39,7 @@
     {
       "id": "hero-image",
       "description": "Hero image for the landing page",
-      "imageUrl": "https://storage.googleapis.com/aifirebase-cloud-build-public-release-artifacts/a5344331-b996-4a4a-9c29-373f7336f33d/image.jpg",
+      "imageUrl": "https://picsum.photos/seed/hero-wildlife/650/650",
       "imageHint": "wildlife nature"
     },
     {
