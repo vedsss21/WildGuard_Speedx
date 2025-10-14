@@ -40,7 +40,7 @@ export default function IncidentCharts() {
             <ChartContainer config={chartConfig} className="w-full h-full">
               <BarChart data={incidentTypeData.map(d => ({...d, type: t(`incidentTypesShort.${d.type.slice(0,3).toLowerCase()}` as any)}))} accessibilityLayer margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                  <defs>
-                    <linearGradient id="fillIncidents" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="fillGreen" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
                         <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
                     </linearGradient>
@@ -61,7 +61,7 @@ export default function IncidentCharts() {
                         formatter={(value, name, item) => [`${value}`, `${item.payload.type} Incidents`]}
                     />} 
                 />
-                <Bar dataKey="incidents" radius={[8, 8, 0, 0]} fill="url(#fillIncidents)"/>
+                <Bar dataKey="incidents" radius={[8, 8, 0, 0]} fill="url(#fillGreen)"/>
               </BarChart>
             </ChartContainer>
           </div>
