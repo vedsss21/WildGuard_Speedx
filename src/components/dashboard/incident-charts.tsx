@@ -15,6 +15,7 @@ import {
   ChartConfig
 } from "@/components/ui/chart";
 import { incidentTrendData, incidentTypeData } from "@/lib/data";
+import { useTranslation } from "@/contexts/language-context";
 
 const incidentTypeChartConfig = {
   incidents: {
@@ -50,24 +51,24 @@ const incidentTrendChartConfig = {
 } satisfies ChartConfig;
 
 export default function IncidentCharts() {
+  const { t } = useTranslation();
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <Card>
         <CardHeader>
-          <CardTitle>Incidents by Type</CardTitle>
-          <CardDescription>A breakdown of incidents by category.</CardDescription>
+          <CardTitle>{t('charts.byType.title')}</CardTitle>
+          <CardDescription>{t('charts.byType.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[300px] w-full">
             <ChartContainer config={incidentTypeChartConfig} className="w-full h-full">
-              <BarChart data={incidentTypeData} accessibilityLayer>
+              <BarChart data={incidentTypeData.map(d => ({...d, type: t(`incidentTypesShort.${d.type.slice(0,3).toLowerCase()}` as any)}))} accessibilityLayer>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="type"
                   tickLine={false}
                   tickMargin={10}
                   axisLine={false}
-                  tickFormatter={(value) => value.slice(0, 3)}
                 />
                 <YAxis />
                 <ChartTooltip
@@ -82,14 +83,14 @@ export default function IncidentCharts() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Trend Analysis</CardTitle>
-          <CardDescription>Monthly incident trends.</CardDescription>
+          <CardTitle>{t('charts.trend.title')}</CardTitle>
+          <CardDescription>{t('charts.trend.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[300px] w-full">
             <ChartContainer config={incidentTrendChartConfig} className="w-full h-full">
               <LineChart
-                data={incidentTrendData}
+                data={incidentTrendData.map(d => ({...d, month: t(`months.${d.month.toLowerCase()}` as any)}))}
                 margin={{ top: 5, right: 20, left: -10, bottom: 0 }}
                 accessibilityLayer
               >

@@ -15,9 +15,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
+import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 
-export default function SignupPage() {
+
+function SignupPageContent() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,7 +29,7 @@ export default function SignupPage() {
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords don't match");
+      alert(t('signup.passwordMismatch'));
       return;
     }
     router.push("/dashboard");
@@ -45,12 +48,12 @@ export default function SignupPage() {
               </CardTitle>
             </Link>
             <CardDescription>
-              Create an account to join the mission.
+              {t('signup.description')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('signup.emailLabel')}</Label>
               <Input
                 id="email"
                 type="email"
@@ -61,7 +64,7 @@ export default function SignupPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('signup.passwordLabel')}</Label>
               <Input
                 id="password"
                 type="password"
@@ -71,7 +74,7 @@ export default function SignupPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm Password</Label>
+              <Label htmlFor="confirm-password">{t('signup.confirmPasswordLabel')}</Label>
               <Input
                 id="confirm-password"
                 type="password"
@@ -83,13 +86,13 @@ export default function SignupPage() {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <Button type="submit" className="w-full">
-              Create Account
+              {t('signup.createAccountButton')}
             </Button>
             <div className="text-sm text-center text-muted-foreground">
-                Already have an account?{" "}
+                {t('signup.loginPrompt')}{" "}
                 <Button variant="link" asChild className="p-0 h-auto">
                     <Link href="/login">
-                        Login
+                        {t('signup.loginLink')}
                     </Link>
                 </Button>
             </div>
@@ -98,4 +101,13 @@ export default function SignupPage() {
       </Card>
     </div>
   );
+}
+
+
+export default function SignupPage() {
+    return (
+        <LanguageProvider>
+            <SignupPageContent />
+        </LanguageProvider>
+    )
 }

@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -16,23 +17,25 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { recentIncidentsData } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/contexts/language-context";
 
 export default function RecentIncidents() {
+  const { t } = useTranslation();
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent Incident Log</CardTitle>
+        <CardTitle>{t('recentIncidents.title')}</CardTitle>
         <CardDescription>
-          A log of the latest reported incidents.
+          {t('recentIncidents.description')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Incident</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>{t('recentIncidents.table.incident')}</TableHead>
+              <TableHead>{t('recentIncidents.table.type')}</TableHead>
+              <TableHead>{t('recentIncidents.table.status')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -44,7 +47,7 @@ export default function RecentIncidents() {
                     {incident.location}
                   </div>
                 </TableCell>
-                <TableCell>{incident.type}</TableCell>
+                <TableCell>{t(`incidentTypes.${incident.type.toLowerCase().replace(/ /g, '')}` as any)}</TableCell>
                 <TableCell>
                   <Badge
                     variant={
@@ -61,7 +64,7 @@ export default function RecentIncidents() {
                         "bg-red-600/20 text-red-700 hover:bg-red-600/30 border-red-600/20"
                     )}
                   >
-                    {incident.status}
+                    {t(`incidentStatuses.${incident.status.toLowerCase()}` as any)}
                   </Badge>
                 </TableCell>
               </TableRow>

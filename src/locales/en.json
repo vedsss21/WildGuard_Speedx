@@ -33,5 +33,383 @@
         "alerts": "Alerts",
         "rangers": "Rangers",
         "offline": "Offline Reports"
+    },
+    "landing": {
+        "login": "Login",
+        "signUp": "Sign Up",
+        "title": "EcoGuardian: For a Balanced Coexistence",
+        "subtitle": "Leveraging cutting-edge technology to monitor, analyze, and mitigate human-wildlife conflict. Join us in creating a safer world for both humans and animals.",
+        "ctaDashboard": "Go to Dashboard",
+        "ctaGetStarted": "Get Started",
+        "footer": "© 2024 EcoGuardian. All rights reserved."
+    },
+    "login": {
+        "description": "Welcome back. Enter your credentials to access your account.",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "loginButton": "Login",
+        "signupPrompt": "Don't have an account?",
+        "signupLink": "Sign up"
+    },
+    "signup": {
+        "description": "Create an account to join the mission.",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm Password",
+        "createAccountButton": "Create Account",
+        "loginPrompt": "Already have an account?",
+        "loginLink": "Login",
+        "passwordMismatch": "Passwords don't match"
+    },
+    "statCards": {
+        "totalIncidents": {
+            "title": "Total Incidents",
+            "change": "+12.5% from last month"
+        },
+        "activeAlerts": {
+            "title": "Active Alerts",
+            "change": "-5.2% from last month"
+        },
+        "rangersDeployed": {
+            "title": "Rangers Deployed",
+            "change": "+2 new teams"
+        }
+    },
+    "mapCard": {
+        "title": "Live Hotspots & Animal Movement",
+        "description": "Interactive map of high-conflict zones and tracked wildlife.",
+        "button": "Full Map"
+    },
+    "charts": {
+        "byType": {
+            "title": "Incidents by Type",
+            "description": "A breakdown of incidents by category."
+        },
+        "trend": {
+            "title": "Trend Analysis",
+            "description": "Monthly incident trends."
+        }
+    },
+    "rangerStatus": {
+        "title": "Ranger's Network Status",
+        "description": "Real-time availability of active ranger teams.",
+        "statuses": {
+            "online": "Online",
+            "offline": "Offline"
+        }
+    },
+    "reportGenerator": {
+        "card": {
+            "title": "Automated Reporting Tool",
+            "description": "Use AI to generate monthly incident reports.",
+            "monthPlaceholder": "Month",
+            "yearPlaceholder": "Year",
+            "generating": "Generating report...",
+            "button": "Generate Report"
+        },
+        "toast": {
+            "titleError": "Error Generating Report",
+            "descriptionError": "There was an issue with the AI service. Please try again later."
+        }
+    },
+    "recentIncidents": {
+        "title": "Recent Incident Log",
+        "description": "A log of the latest reported incidents.",
+        "table": {
+            "incident": "Incident",
+            "type": "Type",
+            "status": "Status"
+        }
+    },
+    "incidentTypes": {
+        "cropdamage": "Crop Damage",
+        "propertydamage": "Property Damage",
+        "animalattack": "Animal Attack",
+        "sighting": "Sighting",
+        "other": "Other"
+    },
+    "incidentTypesShort": {
+        "cro": "Crop",
+        "pro": "Prop",
+        "ani": "Atck",
+        "sig": "Sight",
+        "oth": "Other"
+    },
+    "incidentStatuses": {
+        "resolved": "Resolved",
+        "active": "Active",
+        "pending": "Pending"
+    },
+    "actionsTaken": {
+        "compensation-provided-fencing-advised": "Compensation provided. Fencing advised.",
+        "ranger-team-dispatched-victim-hospitalized": "Ranger team dispatched. Victim hospitalized.",
+        "monitoring-team-alerted": "Monitoring team alerted.",
+        "damage-assessment-complete-report-filed": "Damage assessment complete. Report filed."
+    },
+    "months": {
+        "jan": "Jan", "feb": "Feb", "mar": "Mar", "apr": "Apr", "may": "May", "jun": "Jun", "jul": "Jul"
+    },
+    "monthsFull": {
+        "january": "January", "february": "February", "march": "March", "april": "April", "may": "May", "june": "June", "july": "July", "august": "August", "september": "September", "october": "October", "november": "November", "december": "December"
+    },
+    "alerts": {
+        "title": "Hardware & Real-time Alerts",
+        "tracking": {
+            "title": "Real-time Tracking",
+            "description": "Live GPS feed from Arduino-based animal collars and ranger devices.",
+            "placeholder": "Live map with device locations will be shown here."
+        },
+        "feed": {
+            "title": "Live Alert Feed",
+            "description": "Streaming alerts from all connected hardware devices."
+        },
+        "live": {
+            "time1": "2 mins ago",
+            "alert1": "Leopard detected near fence.",
+            "time2": "15 mins ago",
+            "alert2": "Sensor offline.",
+            "time3": "1 hour ago",
+            "alert3": "Buzzer activated manually by ranger."
+        },
+        "devices": {
+            "title": "Solar-Powered Smart Devices",
+            "description": "Manage your network of smart alert systems.",
+            "table": {
+                "deviceId": "Device ID",
+                "type": "Type",
+                "location": "Location",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "types": {
+                "acoustic-buzzer": "Acoustic Buzzer",
+                "ai-camera": "AI Camera",
+                "infrared-sensor": "Infrared Sensor"
+            },
+            "status": {
+                "active": "Active",
+                "inactive": "Inactive"
+            },
+            "testAlert": "Test Alert"
+        }
+    },
+    "analyzer": {
+        "title": "Animal Activity Analyzer",
+        "peakTimes": {
+            "title": "Peak Activity Times",
+            "description": "Live hourly breakdown of wildlife sightings.",
+            "tooltipTime": "Time",
+            "tooltipSightings": "sightings"
+        },
+        "frequency": {
+            "title": "Sighting Frequency Analysis",
+            "description": "Live count of most frequently sighted animals.",
+            "tooltipSightings": "sightings",
+            "tooltipTotalSightings": "Total Sightings"
+        },
+        "hotspots": {
+            "title": "Common Corridors & Hotspots",
+            "description": "Heatmap showing areas of high animal presence and movement."
+        }
+    },
+    "animals": {
+        "leopard": "Leopard",
+        "elephant": "Elephant",
+        "wildboar": "Wild Boar",
+        "snake": "Snake",
+        "monkey": "Monkey"
+    },
+    "community": {
+        "alerts": {
+            "title": "Instant Alerts",
+            "description": "Real-time notifications about wildlife activity in your area.",
+            "alert1": {
+                "title": "Leopard Sighting near Vihighar village",
+                "description": "A leopard was sighted 30 minutes ago. Residents are advised to stay indoors and keep livestock secured."
+            },
+            "alert2": {
+                "title": "All Clear: Elephant Herd Moved On",
+                "description": "The elephant herd reported near the highway has safely moved back into the forest. The area is now clear."
+            }
+        },
+        "incidents": {
+            "title": "Nearby Incidents",
+            "description": "Recent incidents reported by the community and officials.",
+            "table": {
+                "incident": "Incident",
+                "type": "Type",
+                "status": "Status"
+            }
+        },
+        "report": {
+            "title": "Report an Incident",
+            "description": "Witnessed an incident? Report it here to alert officials.",
+            "form": {
+                "type": {
+                    "label": "Incident Type",
+                    "placeholder": "Select type",
+                    "options": {
+                        "sighting": "Animal Sighting",
+                        "cropDamage": "Crop Damage",
+                        "propertyDamage": "Property Damage",
+                        "attack": "Animal Attack",
+                        "other": "Other"
+                    }
+                },
+                "location": {
+                    "label": "Location",
+                    "placeholder": "e.g., Near the river, Vihighar"
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Provide a brief description of the incident."
+                },
+                "submit": "Submit Report"
+            }
+        },
+        "guides": {
+            "title": "Safety & Education Guides",
+            "description": "Stay informed and safe with these essential guides.",
+            "leopard": {
+                "title": "Encountering a Leopard",
+                "content": "Stay calm. Do not run. Make yourself look larger and back away slowly. Avoid direct eye contact."
+            },
+            "snake": {
+                "title": "Snake Bite First Aid",
+                "content": "Keep the person calm and still. Keep the affected area below the heart. Do not apply a tourniquet or cut the wound. Seek medical help immediately."
+            },
+            "boar": {
+                "title": "Protecting Crops from Wild Boars",
+                "content": "Use sturdy fencing. Boars are strong, so the fence should be well-maintained. Scare devices and night patrols can also be effective."
+            },
+            "elephant": {
+                "title": "If you see an elephant",
+                "content": "Keep a safe distance. Do not approach or feed the elephant. If it charges, run in a zig-zag pattern and try to find cover behind a large object."
+            }
+        }
+    },
+    "engagement": {
+        "leaderboard": {
+            "title": "Community Leaderboard",
+            "description": "Recognizing the most active and helpful members of our community.",
+            "table": {
+                "rank": "Rank",
+                "user": "User",
+                "points": "Points"
+            },
+            "reports": "reports"
+        },
+        "events": {
+            "title": "Upcoming Events",
+            "description": "Join us for workshops, clean-up drives, and community meetings.",
+            "rsvp": "RSVP",
+            "eventsList": {
+                "workshop-coexisting-with-leopards": {
+                    "title": "Workshop: Coexisting with Leopards"
+                },
+                "river-cleanup-drive": {
+                    "title": "River Cleanup Drive"
+                }
+            }
+        },
+        "techRanger": {
+            "title": "Tech Ranger Program",
+            "description": "Become a volunteer and use technology to protect wildlife.",
+            "p1": "Our Tech Ranger program empowers community members to become part of the solution. Volunteers are trained to use our mobile app for accurate reporting, set up and monitor camera traps, and participate in data analysis.",
+            "li1": "Receive training on wildlife monitoring tools.",
+            "li2": "Get priority access to new features.",
+            "li3": "Contribute directly to conservation efforts.",
+            "button": "Learn More & Sign Up"
+        }
+    },
+    "incidents": {
+        "log": {
+            "title": "Incident Log",
+            "description": "A comprehensive log of all reported incidents."
+        },
+        "filterPlaceholder": "Filter by location...",
+        "columnsButton": "Columns",
+        "table": {
+            "selectAll": "Select all",
+            "selectRow": "Select row",
+            "incidentId": "Incident ID",
+            "type": "Type",
+            "location": "Location",
+            "date": "Date",
+            "status": "Status",
+            "actionTaken": "Action Taken",
+            "actions": {
+                "title": "Actions",
+                "openMenu": "Open menu",
+                "copyId": "Copy Incident ID",
+                "viewDetails": "View details",
+                "assignRanger": "Assign ranger"
+            }
+        },
+        "noResults": "No results.",
+        "selectedRows": "{selected} of {total} row(s) selected.",
+        "previous": "Previous",
+        "next": "Next"
+    },
+    "map": {
+        "title": "Live Map"
+    },
+    "mapPopup": {
+        "location": "Location",
+        "type": "Type",
+        "status": "Status",
+        "actionTaken": "Action Taken"
+    },
+    "offline": {
+        "title": "Offline Reporting",
+        "sync": {
+            "title": "Sync Data from Device",
+            "description": "Connect your Arduino-based device and upload the stored incident data.",
+            "placeholder": "Connect your device via USB to begin the sync process.",
+            "button": "Upload Device Data"
+        },
+        "generate": {
+            "title": "Generate Offline Report",
+            "description": "Create a report from the data collected while offline.",
+            "placeholder": "Once data is synced, you can generate a report here.",
+            "button": "Generate Report"
+        },
+        "pending": {
+            "title": "Pending Sync Data",
+            "description": "Review data from your device before finalizing the report.",
+            "placeholder": "Uploaded data from your offline device will appear here in raw format, ready for processing..."
+        }
+    },
+    "rangers": {
+        "title": "Ranger Management",
+        "description": "This page is under construction. Soon you'll be able to manage your ranger teams from here.",
+        "content": "Check back later for more updates!"
+    },
+    "research": {
+        "summary": {
+            "title": "System Data Summary",
+            "description": "A high-level overview of the data collected in the system.",
+            "totalIncidents": "Total Incidents",
+            "rangersDeployed": "Rangers Deployed",
+            "incidentTypes": "Incident Types"
+        }
+    },
+    "analysis": {
+        "defaultQuery": "Show me a breakdown of leopard sightings in Pune for the last quarter.",
+        "toast": {
+            "titleRequired": "Query Required",
+            "descriptionRequired": "Please enter a query to generate an analysis.",
+            "titleError": "Error Generating Analysis",
+            "descriptionError": "There was an issue with the AI service. Please try again later."
+        },
+        "card": {
+            "title": "AI-Powered Analysis",
+            "description": "Use natural language to query your incident data and generate insights with Gemini.",
+            "queryLabel": "Your Query",
+            "queryPlaceholder": "e.g., 'Compare crop damage incidents between January and March.'",
+            "generating": "Generating analysis...",
+            "resultLabel": "Generated Analysis",
+            "button": "Generate Analysis"
+        }
     }
 }

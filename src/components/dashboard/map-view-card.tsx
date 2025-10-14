@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Skeleton } from "../ui/skeleton";
+import { useTranslation } from "@/contexts/language-context";
 
 const MapViewFull = dynamic(() => import("./map-view-full"), {
     ssr: false,
@@ -19,18 +20,19 @@ const MapViewFull = dynamic(() => import("./map-view-full"), {
 });
 
 export default function MapViewCard() {
+    const { t } = useTranslation();
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                    <CardTitle>Live Hotspots & Animal Movement</CardTitle>
+                    <CardTitle>{t('mapCard.title')}</CardTitle>
                     <CardDescription>
-                        Interactive map of high-conflict zones and tracked wildlife.
+                        {t('mapCard.description')}
                     </CardDescription>
                 </div>
                 <Button variant="outline" size="sm" asChild>
                     <Link href="/dashboard/map">
-                        Full Map <MoveRight className="ml-2 h-4 w-4" />
+                        {t('mapCard.button')} <MoveRight className="ml-2 h-4 w-4" />
                     </Link>
                 </Button>
             </CardHeader>

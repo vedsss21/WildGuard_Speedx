@@ -19,20 +19,22 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "../ui/scroll-area";
 import { Label } from "../ui/label";
+import { useTranslation } from "@/contexts/language-context";
 
 export default function AnalysisGenerator() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<GenerateAnalysisOutput | null>(null);
-  const [query, setQuery] = useState("Show me a breakdown of leopard sightings in Pune for the last quarter.");
+  const [query, setQuery] = useState(t('analysis.defaultQuery'));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!query) {
       toast({
         variant: "destructive",
-        title: "Query Required",
-        description: "Please enter a query to generate an analysis.",
+        title: t('analysis.toast.titleRequired'),
+        description: t('analysis.toast.descriptionRequired'),
       });
       return;
     }
@@ -45,9 +47,8 @@ export default function AnalysisGenerator() {
         console.error("Failed to generate analysis:", error);
         toast({
           variant: "destructive",
-          title: "Error Generating Analysis",
-          description:
-            "There was an issue with the AI service. Please try again later.",
+          title: t('analysis.toast.titleError'),
+          description: t('analysis.toast.descriptionError'),
         });
       }
     });
@@ -57,17 +58,17 @@ export default function AnalysisGenerator() {
     <Card>
       <form onSubmit={handleSubmit}>
         <CardHeader>
-          <CardTitle>AI-Powered Analysis</CardTitle>
+          <CardTitle>{t('analysis.card.title')}</CardTitle>
           <CardDescription>
-            Use natural language to query your incident data and generate insights with Gemini.
+            {t('analysis.card.description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="analysis-query">Your Query</Label>
+            <Label htmlFor="analysis-query">{t('analysis.card.queryLabel')}</Label>
             <Textarea
               id="analysis-query"
-              placeholder="e.g., 'Compare crop damage incidents between January and March.'"
+              placeholder={t('analysis.card.queryPlaceholder')}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               rows={3}
@@ -76,12 +77,12 @@ export default function AnalysisGenerator() {
           {isPending && (
             <div className="flex items-center justify-center p-8 text-muted-foreground">
               <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-              <p>Generating analysis...</p>
+              <p>{t('analysis.card.generating')}</p>
             </div>
           )}
           {result && (
             <div className="space-y-2">
-              <Label>Generated Analysis</Label>
+              <Label>{t('analysis.card.resultLabel')}</Label>
               <ScrollArea className="h-60 w-full rounded-md border p-4">
                  <pre className="text-sm whitespace-pre-wrap font-body">{result.analysis}</pre>
               </ScrollArea>
@@ -93,7 +94,7 @@ export default function AnalysisGenerator() {
             {isPending ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
-            Generate Analysis
+            {t('analysis.card.button')}
           </Button>
         </CardFooter>
       </form>

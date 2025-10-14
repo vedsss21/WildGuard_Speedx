@@ -15,9 +15,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
+import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [username, setUsername] = useState("admin@ecoguardian.gov");
   const [password, setPassword] = useState("password");
 
@@ -39,12 +41,12 @@ export default function LoginPage() {
               </CardTitle>
             </Link>
             <CardDescription>
-              Welcome back. Enter your credentials to access your account.
+              {t('login.description')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Email</Label>
+              <Label htmlFor="username">{t('login.emailLabel')}</Label>
               <Input
                 id="username"
                 type="email"
@@ -55,7 +57,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('login.passwordLabel')}</Label>
               <Input
                 id="password"
                 type="password"
@@ -67,13 +69,13 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <Button type="submit" className="w-full">
-              Login
+              {t('login.loginButton')}
             </Button>
             <div className="text-sm text-center text-muted-foreground">
-                Don't have an account?{" "}
+                {t('login.signupPrompt')}{" "}
                 <Button variant="link" asChild className="p-0 h-auto">
                     <Link href="/signup">
-                        Sign up
+                        {t('login.signupLink')}
                     </Link>
                 </Button>
             </div>
@@ -82,4 +84,12 @@ export default function LoginPage() {
       </Card>
     </div>
   );
+}
+
+export default function LoginPage() {
+    return (
+        <LanguageProvider>
+            <LoginPageContent />
+        </LanguageProvider>
+    )
 }

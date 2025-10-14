@@ -8,10 +8,12 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card";
-import { BarChart, CartesianGrid, XAxis, YAxis, Bar, LineChart, Line, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, CartesianGrid, XAxis, YAxis, Bar, LineChart, Line, Tooltip } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "@/contexts/language-context";
+
 
 const MapViewFull = dynamic(() => import("@/components/dashboard/map-view-full"), {
     ssr: false,
@@ -39,12 +41,12 @@ const initialSightingFrequencyData = [
 ];
   
 export default function AnalyzerPage() {
+    const { t } = useTranslation();
     const [peakTimeData, setPeakTimeData] = useState(initialPeakTimeData);
     const [sightingFrequencyData, setSightingFrequencyData] = useState(initialSightingFrequencyData);
 
     useEffect(() => {
         const interval = setInterval(() => {
-          // Simulate real-time data updates for Peak Activity Times
           setPeakTimeData(prevData =>
             prevData.map(item => ({
               ...item,
@@ -52,14 +54,13 @@ export default function AnalyzerPage() {
             }))
           );
     
-          // Simulate real-time data updates for Sighting Frequency
           setSightingFrequencyData(prevData =>
             prevData.map(item => ({
               ...item,
               count: item.count + Math.floor(Math.random() * 3),
             }))
           );
-        }, 3000); // Update every 3 seconds
+        }, 3000); 
     
         return () => clearInterval(interval);
       }, []);
@@ -68,13 +69,13 @@ export default function AnalyzerPage() {
     return (
         <div className="flex flex-col gap-8">
             <h1 className="text-3xl font-bold font-headline tracking-tight">
-            Animal Activity Analyzer
+                {t('analyzer.title')}
             </h1>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Peak Activity Times</CardTitle>
-                        <CardDescription>Live hourly breakdown of wildlife sightings.</CardDescription>
+                        <CardTitle>{t('analyzer.peakTimes.title')}</CardTitle>
+                        <CardDescription>{t('analyzer.peakTimes.description')}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="h-[300px] w-full">
@@ -85,8 +86,8 @@ export default function AnalyzerPage() {
                                     <YAxis axisLine={false} tickLine={false} />
                                     <Tooltip
                                         content={<ChartTooltipContent
-                                            labelFormatter={(label) => `Time: ${label}`}
-                                            formatter={(value) => [`${value} sightings`, "Sightings"]}
+                                            labelFormatter={(label) => `${t('analyzer.peakTimes.tooltipTime')}: ${label}`}
+                                            formatter={(value) => [`${value} ${t('analyzer.peakTimes.tooltipSightings')}`, t('analyzer.peakTimes.tooltipSightings')]}
                                             indicator="dot"
                                         />}
                                     />
@@ -98,20 +99,20 @@ export default function AnalyzerPage() {
                 </Card>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Sighting Frequency Analysis</CardTitle>
-                        <CardDescription>Live count of most frequently sighted animals.</CardDescription>
+                        <CardTitle>{t('analyzer.frequency.title')}</CardTitle>
+                        <CardDescription>{t('analyzer.frequency.description')}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="h-[300px] w-full">
                             <ChartContainer config={{}} className="w-full h-full">
-                                <BarChart data={sightingFrequencyData} accessibilityLayer margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
+                                <BarChart data={sightingFrequencyData.map(d => ({...d, animal: t(`animals.${d.animal.toLowerCase().replace(' ','')}` as any)}))} accessibilityLayer margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
                                     <CartesianGrid vertical={false} />
                                     <XAxis dataKey="animal" tickLine={false} tickMargin={10} axisLine={false} />
                                     <YAxis axisLine={false} tickLine={false} />
                                     <ChartTooltip
                                         cursor={false}
                                         content={<ChartTooltipContent 
-                                            formatter={(value, name) => [`${value} sightings`, "Total Sightings"]}
+                                            formatter={(value) => [`${value} ${t('analyzer.frequency.tooltipSightings')}`, t('analyzer.frequency.tooltipTotalSightings')]}
                                             indicator="dot" 
                                         />}
                                     />
@@ -124,8 +125,8 @@ export default function AnalyzerPage() {
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Common Corridors & Hotspots</CardTitle>
-                    <CardDescription>Heatmap showing areas of high animal presence and movement.</CardDescription>
+                    <CardTitle>{t('analyzer.hotspots.title')}</CardTitle>
+                    <CardDescription>{t('analyzer.hotspots.description')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                    <div className="h-[400px] w-full rounded-lg overflow-hidden border">

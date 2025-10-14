@@ -19,13 +19,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { communityLeaderboard, communityEvents } from "@/lib/data";
 import { Award, Calendar, Lightbulb, Trophy } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "@/contexts/language-context";
 
 export default function EngagementPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-3xl font-bold font-headline tracking-tight">
-        Community Engagement
+        {t('nav.engagement')}
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
@@ -33,20 +35,19 @@ export default function EngagementPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Trophy className="text-amber-500" />
-                Community Leaderboard
+                {t('engagement.leaderboard.title')}
               </CardTitle>
               <CardDescription>
-                Recognizing the most active and helpful members of our
-                community.
+                {t('engagement.leaderboard.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[80px]">Rank</TableHead>
-                    <TableHead>User</TableHead>
-                    <TableHead className="text-right">Points</TableHead>
+                    <TableHead className="w-[80px]">{t('engagement.leaderboard.table.rank')}</TableHead>
+                    <TableHead>{t('engagement.leaderboard.table.user')}</TableHead>
+                    <TableHead className="text-right">{t('engagement.leaderboard.table.points')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -68,7 +69,7 @@ export default function EngagementPage() {
                           <div>
                             <p className="font-medium">{user.name}</p>
                             <p className="text-sm text-muted-foreground">
-                              {user.reports} reports
+                              {user.reports} {t('engagement.leaderboard.reports')}
                             </p>
                           </div>
                         </div>
@@ -86,21 +87,21 @@ export default function EngagementPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar />
-                Upcoming Events
+                {t('engagement.events.title')}
               </CardTitle>
               <CardDescription>
-                Join us for workshops, clean-up drives, and community meetings.
+                {t('engagement.events.description')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {communityEvents.map((event) => (
                 <div key={event.title} className="flex items-center justify-between p-4 rounded-lg bg-secondary">
                   <div>
-                    <h3 className="font-semibold">{event.title}</h3>
+                    <h3 className="font-semibold">{t(`engagement.events.eventsList.${event.title.toLowerCase().replace(/:/g, "").replace(/ /g, "-")}.title` as any)}</h3>
                     <p className="text-sm text-muted-foreground">{event.date} &bull; {event.location}</p>
                   </div>
                   <Button variant="outline" size="sm">
-                    RSVP
+                    {t('engagement.events.rsvp')}
                   </Button>
                 </div>
               ))}
@@ -112,22 +113,22 @@ export default function EngagementPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Lightbulb className="text-primary"/>
-                Tech Ranger Program
+                {t('engagement.techRanger.title')}
               </CardTitle>
               <CardDescription>
-                Become a volunteer and use technology to protect wildlife.
+                {t('engagement.techRanger.description')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <p>
-                Our Tech Ranger program empowers community members to become part of the solution. Volunteers are trained to use our mobile app for accurate reporting, set up and monitor camera traps, and participate in data analysis.
+                {t('engagement.techRanger.p1')}
               </p>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Receive training on wildlife monitoring tools.</li>
-                <li>Get priority access to new features.</li>
-                <li>Contribute directly to conservation efforts.</li>
+                <li>{t('engagement.techRanger.li1')}</li>
+                <li>{t('engagement.techRanger.li2')}</li>
+                <li>{t('engagement.techRanger.li3')}</li>
               </ul>
-              <Button className="w-full">Learn More & Sign Up</Button>
+              <Button className="w-full">{t('engagement.techRanger.button')}</Button>
             </CardContent>
           </Card>
         </div>

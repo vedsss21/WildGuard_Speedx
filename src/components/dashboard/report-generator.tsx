@@ -24,6 +24,7 @@ import {
 } from "@/ai/flows/generate-incident-report";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "../ui/scroll-area";
+import { useTranslation } from "@/contexts/language-context";
 
 const months = [
   "January", "February", "March", "April", "May", "June",
@@ -33,6 +34,7 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 5 }, (_, i) => (currentYear - i).toString());
 
 export default function ReportGenerator() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<GenerateIncidentReportOutput | null>(null);
@@ -50,9 +52,9 @@ export default function ReportGenerator() {
         console.error("Failed to generate report:", error);
         toast({
           variant: "destructive",
-          title: "Error Generating Report",
+          title: t('reportGenerator.toast.titleError'),
           description:
-            "There was an issue with the AI service. Please try again later.",
+          t('reportGenerator.toast.descriptionError'),
         });
       }
     });
@@ -62,28 +64,28 @@ export default function ReportGenerator() {
     <Card>
       <form onSubmit={handleSubmit}>
         <CardHeader>
-          <CardTitle>Automated Reporting Tool</CardTitle>
+          <CardTitle>{t('reportGenerator.card.title')}</CardTitle>
           <CardDescription>
-            Use AI to generate monthly incident reports.
+            {t('reportGenerator.card.description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <Select onValueChange={setMonth} defaultValue={month}>
               <SelectTrigger>
-                <SelectValue placeholder="Month" />
+                <SelectValue placeholder={t('reportGenerator.card.monthPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
                 {months.map((m) => (
                   <SelectItem key={m} value={m}>
-                    {m}
+                    {t(`monthsFull.${m.toLowerCase()}` as any)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             <Select onValueChange={setYear} defaultValue={year}>
               <SelectTrigger>
-                <SelectValue placeholder="Year" />
+                <SelectValue placeholder={t('reportGenerator.card.yearPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
                 {years.map((y) => (
@@ -97,7 +99,7 @@ export default function ReportGenerator() {
           {isPending && (
             <div className="flex items-center justify-center p-8 text-muted-foreground">
               <Loader2 className="mr-2 h-6 w-6 animate-spin" />
-              <p>Generating report...</p>
+              <p>{t('reportGenerator.card.generating')}</p>
             </div>
           )}
           {result && (
@@ -111,7 +113,7 @@ export default function ReportGenerator() {
             {isPending ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
-            Generate Report
+            {t('reportGenerator.card.button')}
           </Button>
         </CardFooter>
       </form>

@@ -1,10 +1,14 @@
+"use client";
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
+import { LanguageProvider, useTranslation } from '@/contexts/language-context';
 
-export default function LandingPage() {
+function LandingPageContent() {
+  const { t } = useTranslation();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-image');
 
   return (
@@ -20,11 +24,11 @@ export default function LandingPage() {
               href="/login"
               className="text-sm font-medium"
             >
-              Login
+              {t('landing.login')}
             </Link>
           </Button>
           <Button asChild>
-            <Link href="/signup">Sign Up</Link>
+            <Link href="/signup">{t('landing.signUp')}</Link>
           </Button>
         </nav>
       </header>
@@ -34,21 +38,21 @@ export default function LandingPage() {
             <div className="flex flex-col justify-center space-y-4 text-center lg:text-left">
               <div className="space-y-4">
                  <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary via-green-600 to-secondary-foreground">
-                  EcoGuardian: For a Balanced Coexistence
+                  {t('landing.title')}
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl mx-auto lg:mx-0">
-                  Leveraging cutting-edge technology to monitor, analyze, and mitigate human-wildlife conflict. Join us in creating a safer world for both humans and animals.
+                  {t('landing.subtitle')}
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row mx-auto lg:mx-0">
                 <Button asChild size="lg">
                   <Link href="/dashboard">
-                    Go to Dashboard
+                    {t('landing.ctaDashboard')}
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
                   <Link href="/signup">
-                    Get Started
+                    {t('landing.ctaGetStarted')}
                   </Link>
                 </Button>
               </div>
@@ -65,8 +69,16 @@ export default function LandingPage() {
         </section>
       </main>
       <footer className="flex items-center justify-center p-6 bg-background">
-        <p className="text-sm text-muted-foreground">&copy; 2024 EcoGuardian. All rights reserved.</p>
+        <p className="text-sm text-muted-foreground">{t('landing.footer')}</p>
       </footer>
     </div>
   );
+}
+
+export default function LandingPage() {
+    return (
+        <LanguageProvider>
+            <LandingPageContent />
+        </LanguageProvider>
+    )
 }

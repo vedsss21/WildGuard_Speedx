@@ -38,54 +38,57 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const safetyGuides = [
-  {
-    title: "Encountering a Leopard",
-    content: "Stay calm. Do not run. Make yourself look larger and back away slowly. Avoid direct eye contact."
-  },
-  {
-    title: "Snake Bite First Aid",
-    content: "Keep the person calm and still. Keep the affected area below the heart. Do not apply a tourniquet or cut the wound. Seek medical help immediately."
-  },
-  {
-    title: "Protecting Crops from Wild Boars",
-    content: "Use sturdy fencing. Boars are strong, so the fence should be well-maintained. Scare devices and night patrols can also be effective."
-  },
-  {
-    title: "If you see an elephant",
-    content: "Keep a safe distance. Do not approach or feed the elephant. If it charges, run in a zig-zag pattern and try to find cover behind a large object."
-  }
-];
+import { useTranslation } from "@/contexts/language-context";
 
 export default function CommunityHubPage() {
+  const { t } = useTranslation();
+
+  const safetyGuides = [
+    {
+      title: t('community.guides.leopard.title'),
+      content: t('community.guides.leopard.content')
+    },
+    {
+      title: t('community.guides.snake.title'),
+      content: t('community.guides.snake.content')
+    },
+    {
+      title: t('community.guides.boar.title'),
+      content: t('community.guides.boar.content')
+    },
+    {
+      title: t('community.guides.elephant.title'),
+      content: t('community.guides.elephant.content')
+    }
+  ];
+
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-3xl font-bold font-headline tracking-tight">
-        Community Hub
+        {t('nav.community')}
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Siren className="text-destructive"/>Instant Alerts</CardTitle>
+              <CardTitle className="flex items-center gap-2"><Siren className="text-destructive"/>{t('community.alerts.title')}</CardTitle>
               <CardDescription>
-                Real-time notifications about wildlife activity in your area.
+                {t('community.alerts.description')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                <Alert variant="destructive">
                   <Siren className="h-4 w-4" />
-                  <AlertTitle>Leopard Sighting near Vihighar village</AlertTitle>
+                  <AlertTitle>{t('community.alerts.alert1.title')}</AlertTitle>
                   <AlertDescription>
-                    A leopard was sighted 30 minutes ago. Residents are advised to stay indoors and keep livestock secured.
+                    {t('community.alerts.alert1.description')}
                   </AlertDescription>
                 </Alert>
                 <Alert>
                   <CheckCircle className="h-4 w-4 text-green-500"/>
-                  <AlertTitle>All Clear: Elephant Herd Moved On</AlertTitle>
+                  <AlertTitle>{t('community.alerts.alert2.title')}</AlertTitle>
                   <AlertDescription>
-                    The elephant herd reported near the highway has safely moved back into the forest. The area is now clear.
+                    {t('community.alerts.alert2.description')}
                   </AlertDescription>
                 </Alert>
             </CardContent>
@@ -93,18 +96,18 @@ export default function CommunityHubPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><List />Nearby Incidents</CardTitle>
+              <CardTitle className="flex items-center gap-2"><List />{t('community.incidents.title')}</CardTitle>
               <CardDescription>
-                Recent incidents reported by the community and officials.
+                {t('community.incidents.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
                 <Table>
                     <TableHeader>
                         <TableRow>
-                        <TableHead>Incident</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>{t('community.incidents.table.incident')}</TableHead>
+                        <TableHead>{t('community.incidents.table.type')}</TableHead>
+                        <TableHead>{t('community.incidents.table.status')}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -116,7 +119,7 @@ export default function CommunityHubPage() {
                                 {incident.location}
                             </div>
                             </TableCell>
-                            <TableCell>{incident.type}</TableCell>
+                            <TableCell>{t(`incidentTypes.${incident.type.toLowerCase().replace(/ /g, '')}` as any)}</TableCell>
                             <TableCell>
                             <Badge
                                 variant={
@@ -133,7 +136,7 @@ export default function CommunityHubPage() {
                                     "bg-red-600/20 text-red-700 hover:bg-red-600/30 border-red-600/20"
                                 )}
                             >
-                                {incident.status}
+                                {t(`incidentStatuses.${incident.status.toLowerCase()}` as any)}
                             </Badge>
                             </TableCell>
                         </TableRow>
@@ -147,47 +150,47 @@ export default function CommunityHubPage() {
           <Card>
             <form>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><MapPin/>Report an Incident</CardTitle>
+                    <CardTitle className="flex items-center gap-2"><MapPin/>{t('community.report.title')}</CardTitle>
                     <CardDescription>
-                        Witnessed an incident? Report it here to alert officials.
+                        {t('community.report.description')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="incident-type">Incident Type</Label>
+                        <Label htmlFor="incident-type">{t('community.report.form.type.label')}</Label>
                         <Select>
                             <SelectTrigger id="incident-type">
-                                <SelectValue placeholder="Select type" />
+                                <SelectValue placeholder={t('community.report.form.type.placeholder')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="sighting">Animal Sighting</SelectItem>
-                                <SelectItem value="crop-damage">Crop Damage</SelectItem>
-                                <SelectItem value="property-damage">Property Damage</SelectItem>
-                                <SelectItem value="attack">Animal Attack</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
+                                <SelectItem value="sighting">{t('community.report.form.type.options.sighting')}</SelectItem>
+                                <SelectItem value="crop-damage">{t('community.report.form.type.options.cropDamage')}</SelectItem>
+                                <SelectItem value="property-damage">{t('community.report.form.type.options.propertyDamage')}</SelectItem>
+                                <SelectItem value="attack">{t('community.report.form.type.options.attack')}</SelectItem>
+                                <SelectItem value="other">{t('community.report.form.type.options.other')}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="location">Location</Label>
-                        <Input id="location" placeholder="e.g., Near the river, Vihighar" />
+                        <Label htmlFor="location">{t('community.report.form.location.label')}</Label>
+                        <Input id="location" placeholder={t('community.report.form.location.placeholder')} />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea id="description" placeholder="Provide a brief description of the incident." />
+                        <Label htmlFor="description">{t('community.report.form.description.label')}</Label>
+                        <Textarea id="description" placeholder={t('community.report.form.description.placeholder')} />
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button className="w-full">Submit Report</Button>
+                    <Button className="w-full">{t('community.report.form.submit')}</Button>
                 </CardFooter>
             </form>
           </Card>
           
           <Card>
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><BookOpen />Safety & Education Guides</CardTitle>
+                <CardTitle className="flex items-center gap-2"><BookOpen />{t('community.guides.title')}</CardTitle>
                 <CardDescription>
-                    Stay informed and safe with these essential guides.
+                    {t('community.guides.description')}
                 </CardDescription>
             </CardHeader>
             <CardContent>

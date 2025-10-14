@@ -9,6 +9,7 @@ import { recentIncidentsData } from '@/lib/data';
 import { Badge } from '../ui/badge';
 import { cn } from '@/lib/utils';
 import ReactDOMServer from 'react-dom/server';
+import { useTranslation } from '@/contexts/language-context';
 
 // Mock coordinates for incidents
 const incidentLocations = [
@@ -18,12 +19,12 @@ const incidentLocations = [
     { lat: 19.2183, lng: 72.9781 }, // Thane
 ];
 
-const PopupContent = ({ incident }: { incident: (typeof recentIncidentsData)[0] }) => (
+const PopupContent = ({ incident, t }: { incident: (typeof recentIncidentsData)[0], t: (key: string) => string }) => (
     <div className="w-48">
         <h3 className="font-bold text-lg">{incident.id}</h3>
-        <p><span className='font-semibold'>Location:</span> {incident.location}</p>
-        <p><span className='font-semibold'>Type:</span> {incident.type}</p>
-        <p className='flex items-center gap-2'><span className='font-semibold'>Status:</span>
+        <p><span className='font-semibold'>{t('mapPopup.location')}:</span> {incident.location}</p>
+        <p><span className='font-semibold'>{t('mapPopup.type')}:</span> {t(`incidentTypes.${incident.type.toLowerCase().replace(/ /g, '')}` as any)}</p>
+        <p className='flex items-center gap-2'><span className='font-semibold'>{t('mapPopup.status')}:</span>
             <Badge
                 variant={
                     incident.status === "Resolved"
@@ -40,15 +41,16 @@ const PopupContent = ({ incident }: { incident: (typeof recentIncidentsData)[0] 
                     "bg-red-100 text-red-800 border-red-200"
                 )}
             >
-                {incident.status}
+                {t(`incidentStatuses.${incident.status.toLowerCase()}` as any)}
             </Badge>
         </p>
-        <p><span className='font-semibold'>Action Taken:</span> {incident.actionTaken}</p>
+        <p><span className='font-semibold'>{t('mapPopup.actionTaken')}:</span> {t(`actionsTaken.${incident.actionTaken.toLowerCase().replace(/\. /g, ' ').replace(/\./g, '').replace(/ /g, '-')}` as any)}</p>
     </div>
 );
 
 
 export default function MapViewFull() {
+    const { t } = useTranslation();
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapRef = useRef<L.Map | null>(null);
 
@@ -62,7 +64,7 @@ export default function MapViewFull() {
 
             recentIncidentsData.forEach((incident, index) => {
                 const popupContent = ReactDOMServer.renderToString(
-                    <PopupContent incident={incident} />
+                    <PopupContent incident={incident} t={t}/>
                 );
 
                 L.marker([incidentLocations[index].lat, incidentLocations[index].lng])
@@ -77,7 +79,7 @@ export default function MapViewFull() {
                 mapRef.current = null;
             }
         };
-    }, []);
+    }, [t]);
 
     return <div ref={mapContainerRef} style={{ height: '100%', width: '100%' }} />;
 }

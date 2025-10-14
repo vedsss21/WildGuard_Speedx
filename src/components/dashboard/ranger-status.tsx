@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -6,16 +8,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useTranslation } from "@/contexts/language-context";
 import { rangersData } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export default function RangerStatus() {
+  const { t } = useTranslation();
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ranger's Network Status</CardTitle>
+        <CardTitle>{t('rangerStatus.title')}</CardTitle>
         <CardDescription>
-          Real-time availability of active ranger teams.
+          {t('rangerStatus.description')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -39,7 +43,7 @@ export default function RangerStatus() {
                     ranger.status === "Online" ? "bg-green-500" : "bg-gray-400"
                   )}
                 />
-                <p className="text-sm text-muted-foreground">{ranger.status}</p>
+                <p className="text-sm text-muted-foreground">{t(`rangerStatus.statuses.${ranger.status.toLowerCase()}` as any)}</p>
               </div>
             </div>
           </div>
