@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import {
     Card,
     CardContent,
@@ -7,10 +8,18 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card";
-import { BarChart, CartesianGrid, XAxis, YAxis, Bar, LineChart, Line, Tooltip } from 'recharts';
+import { BarChart, CartesianGrid, XAxis, YAxis, Bar, LineChart, Line, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const peakTimeData = [
+const MapViewFull = dynamic(() => import("@/components/dashboard/map-view-full"), {
+    ssr: false,
+    loading: () => <Skeleton className="h-[400px] w-full" />,
+});
+
+
+const initialPeakTimeData = [
     { hour: "00:00", sightings: 10 },
     { hour: "03:00", sightings: 15 },
     { hour: "06:00", sightings: 45 },
@@ -19,9 +28,9 @@ const peakTimeData = [
     { hour: "15:00", sightings: 25 },
     { hour: "18:00", sightings: 80 },
     { hour: "21:00", sightings: 50 },
-  ];
+];
   
-const sightingFrequencyData = [
+const initialSightingFrequencyData = [
     { animal: "Leopard", count: 120 },
     { animal: "Elephant", count: 80 },
     { animal: "Wild Boar", count: 250 },
@@ -30,6 +39,32 @@ const sightingFrequencyData = [
 ];
   
 export default function AnalyzerPage() {
+    const [peakTimeData, setPeakTimeData] = useState(initialPeakTimeData);
+    const [sightingFrequencyData, setSightingFrequencyData] = useState(initialSightingFrequencyData);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          // Simulate real-time data updates for Peak Activity Times
+          setPeakTimeData(prevData =>
+            prevData.map(item => ({
+              ...item,
+              sightings: Math.max(5, item.sightings + Math.floor(Math.random() * 5) - 2),
+            }))
+          );
+    
+          // Simulate real-time data updates for Sighting Frequency
+          setSightingFrequencyData(prevData =>
+            prevData.map(item => ({
+              ...item,
+              count: item.count + Math.floor(Math.random() * 3),
+            }))
+          );
+        }, 3000); // Update every 3 seconds
+    
+        return () => clearInterval(interval);
+      }, []);
+
+
     return (
         <div className="flex flex-col gap-8">
             <h1 className="text-3xl font-bold font-headline tracking-tight">
@@ -39,17 +74,23 @@ export default function AnalyzerPage() {
                 <Card>
                     <CardHeader>
                         <CardTitle>Peak Activity Times</CardTitle>
-                        <CardDescription>Hourly breakdown of wildlife sightings.</CardDescription>
+                        <CardDescription>Live hourly breakdown of wildlife sightings.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="h-[300px] w-full">
                             <ChartContainer config={{}} className="w-full h-full">
                                 <LineChart data={peakTimeData} margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false}/>
-                                    <XAxis dataKey="hour" />
-                                    <YAxis />
-                                    <Tooltip content={<ChartTooltipContent />} />
-                                    <Line type="monotone" dataKey="sightings" stroke="hsl(var(--primary))" strokeWidth={2} />
+                                    <XAxis dataKey="hour" axisLine={false} tickLine={false} />
+                                    <YAxis axisLine={false} tickLine={false} />
+                                    <Tooltip
+                                        content={<ChartTooltipContent
+                                            labelFormatter={(label) => `Time: ${label}`}
+                                            formatter={(value) => [`${value} sightings`, "Sightings"]}
+                                            indicator="dot"
+                                        />}
+                                    />
+                                    <Line type="monotone" dataKey="sightings" stroke="hsl(var(--primary))" strokeWidth={3} dot={false} />
                                 </LineChart>
                             </ChartContainer>
                         </div>
@@ -58,20 +99,23 @@ export default function AnalyzerPage() {
                 <Card>
                     <CardHeader>
                         <CardTitle>Sighting Frequency Analysis</CardTitle>
-                        <CardDescription>Most frequently sighted animals.</CardDescription>
+                        <CardDescription>Live count of most frequently sighted animals.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="h-[300px] w-full">
                             <ChartContainer config={{}} className="w-full h-full">
-                                <BarChart data={sightingFrequencyData} accessibilityLayer>
+                                <BarChart data={sightingFrequencyData} accessibilityLayer margin={{ top: 5, right: 20, left: -10, bottom: 0 }}>
                                     <CartesianGrid vertical={false} />
                                     <XAxis dataKey="animal" tickLine={false} tickMargin={10} axisLine={false} />
-                                    <YAxis />
+                                    <YAxis axisLine={false} tickLine={false} />
                                     <ChartTooltip
-                                    cursor={false}
-                                    content={<ChartTooltipContent indicator="dot" />}
+                                        cursor={false}
+                                        content={<ChartTooltipContent 
+                                            formatter={(value, name) => [`${value} sightings`, "Total Sightings"]}
+                                            indicator="dot" 
+                                        />}
                                     />
-                                    <Bar dataKey="count" fill="hsl(var(--primary))" radius={4} />
+                                    <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                                 </BarChart>
                             </ChartContainer>
                         </div>
@@ -84,8 +128,8 @@ export default function AnalyzerPage() {
                     <CardDescription>Heatmap showing areas of high animal presence and movement.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                   <div className="h-[400px] w-full bg-muted rounded-lg flex items-center justify-center">
-                        <p className="text-muted-foreground">Map of common corridors will be displayed here.</p>
+                   <div className="h-[400px] w-full rounded-lg overflow-hidden border">
+                        <MapViewFull />
                    </div>
                 </CardContent>
             </Card>
