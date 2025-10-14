@@ -7,7 +7,7 @@ import Image from "next/image";
 import {
   BarChart3,
   Bell,
-  Languages,
+  Handshake,
   LayoutDashboard,
   LogOut,
   Map,
@@ -48,6 +48,7 @@ const NAV_ITEMS = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { href: "/dashboard/map", icon: Map, label: "Map View" },
   { href: "/dashboard/reports", icon: BarChart3, label: "Reports" },
+  { href: "/dashboard/community", icon: Handshake, label: "Community Hub" },
   { href: "/dashboard/incidents", icon: ShieldAlert, label: "Incidents" },
   { href: "/dashboard/rangers", icon: Users, label: "Rangers" },
 ];
