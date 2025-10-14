@@ -46,20 +46,6 @@ export default function IncidentCharts() {
         <CardContent>
           <div className="h-[300px] w-full">
             <ChartContainer config={incidentTypeChartConfig} className="w-full h-full">
-              <defs>
-                <linearGradient id="fillBar" x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="5%"
-                    stopColor="hsl(var(--chart-1))"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor="hsl(var(--chart-1))"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
-              </defs>
               <BarChart 
                 data={incidentTypeData.map(d => ({...d, type: t(`incidentTypes.${d.type.toLowerCase().replace(/ /g, '')}` as any, d.type)}))} 
                 accessibilityLayer 
@@ -106,12 +92,6 @@ export default function IncidentCharts() {
                 margin={{ top: 10, right: 20, left: -10, bottom: 0 }}
                 accessibilityLayer
               >
-                <defs>
-                    <linearGradient id="fillTrend" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1}/>
-                    </linearGradient>
-                </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="month" tickLine={false} axisLine={false}/>
                 <YAxis tickLine={false} axisLine={false}/>

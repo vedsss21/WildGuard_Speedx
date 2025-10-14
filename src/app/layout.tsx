@@ -29,6 +29,26 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
       <body className={cn("font-sans antialiased", inter.variable)}>
+        <svg width="0" height="0" className="absolute">
+            <defs>
+                <linearGradient id="fillBar" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                    offset="5%"
+                    stopColor="var(--color-chart1-stop-1)"
+                    stopOpacity={0.8}
+                    />
+                    <stop
+                    offset="95%"
+                    stopColor="var(--color-chart1-stop-2)"
+                    stopOpacity={0.1}
+                    />
+                </linearGradient>
+                <linearGradient id="fillTrend" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--color-primary-stop-1)" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="var(--color-primary-stop-2)" stopOpacity={0.1}/>
+                </linearGradient>
+            </defs>
+        </svg>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
