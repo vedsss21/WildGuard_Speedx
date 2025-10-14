@@ -29,6 +29,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useSidebar } from "../ui/sidebar";
 import { useTranslation } from "@/contexts/language-context";
 import { Input } from "../ui/input";
+import { useSearch } from "@/contexts/search-context";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -36,6 +37,7 @@ export default function Header() {
   const { setTheme } = useTheme();
   const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
   const { setLanguage, t } = useTranslation();
+  const { searchQuery, setSearchQuery } = useSearch();
 
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -44,6 +46,7 @@ export default function Header() {
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
+          className="md:hidden"
         >
           <Menu className="h-6 w-6" />
           <span className="sr-only">Toggle sidebar</span>
@@ -58,12 +61,18 @@ export default function Header() {
               type="search"
               placeholder={t('header.searchPlaceholder')}
               className="w-full appearance-none bg-secondary pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </form>
       </div>
       
       <div className="flex items-center gap-2">
+        <Button variant="ghost" size="icon" onClick={toggleSidebar} className="hidden md:flex">
+          <Menu className="h-6 w-6" />
+          <span className="sr-only">Toggle sidebar</span>
+        </Button>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">

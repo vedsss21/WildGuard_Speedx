@@ -50,6 +50,7 @@ import {
     CardTitle,
   } from "@/components/ui/card";
 import { useTranslation } from "@/contexts/language-context";
+import { useSearch } from "@/contexts/search-context";
 
 type Incident = {
   id: string;
@@ -62,6 +63,7 @@ type Incident = {
 
 export default function IncidentsPage() {
   const { t } = useTranslation();
+  const { searchQuery } = useSearch();
 
   const columns: ColumnDef<Incident>[] = [
     {
@@ -206,6 +208,10 @@ export default function IncidentsPage() {
       rowSelection,
     },
   });
+
+  React.useEffect(() => {
+    table.getColumn("location")?.setFilterValue(searchQuery);
+  }, [searchQuery, table]);
 
   return (
     <div className="flex flex-col gap-8">

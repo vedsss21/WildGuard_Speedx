@@ -49,6 +49,7 @@ import Header from "@/components/dashboard/header";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
+import { SearchProvider } from "@/contexts/search-context";
 
 const NAV_ITEMS = [
   { href: "/dashboard", icon: LayoutDashboard, label: "nav.dashboard" },
@@ -96,7 +97,6 @@ function UserMenu() {
     <div
       className={cn(
         "p-2 rounded-lg flex items-center gap-3",
-        "group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:w-full"
       )}
     >
       <DropdownMenu>
@@ -138,7 +138,7 @@ function UserMenu() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <div className="duration-200 flex flex-col transition-opacity ease-linear group-data-[collapsible=icon]:opacity-0">
+      <div className="duration-200 flex flex-col transition-opacity ease-linear">
         <span className="font-semibold text-sidebar-foreground">{t('user.name')}</span>
         <span className="text-xs text-sidebar-foreground/70">
           {t('user.role')}
@@ -199,7 +199,9 @@ export default function DashboardLayout({
 }) {
   return (
     <LanguageProvider>
-      <DashboardLayoutContent>{children}</DashboardLayoutContent>
+        <SearchProvider>
+            <DashboardLayoutContent>{children}</DashboardLayoutContent>
+        </SearchProvider>
     </LanguageProvider>
   )
 }
