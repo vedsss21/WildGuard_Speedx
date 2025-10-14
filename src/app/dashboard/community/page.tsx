@@ -1,5 +1,7 @@
+
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -27,7 +29,7 @@ import {
 } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { List, MapPin, Siren, CheckCircle, BookOpen } from "lucide-react";
-import { recentIncidentsData } from "@/lib/data";
+import { recentIncidentsData as initialIncidentsData } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
@@ -39,9 +41,52 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useTranslation } from "@/contexts/language-context";
+import { useToast } from "@/hooks/use-toast";
+
+type Incident = typeof initialIncidentsData[0];
 
 export default function CommunityHubPage() {
   const { t } = useTranslation();
+  const { toast } = useToast();
+
+  const [incidentType, setIncidentType] = useState("");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [recentIncidents, setRecentIncidents] = useState<Incident[]>(initialIncidentsData.slice(0,3));
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!incidentType || !location || !description) {
+        toast({
+            variant: "destructive",
+            title: "Missing Information",
+            description: "Please fill out all fields to submit an incident.",
+        });
+        return;
+    }
+
+    const newIncident: Incident = {
+        id: `INC-${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
+        type: incidentType,
+        location: location,
+        date: new Date().toISOString().split("T")[0],
+        status: "Pending",
+        actionTaken: "Awaiting review",
+    };
+
+    setRecentIncidents([newIncident, ...recentIncidents]);
+
+    toast({
+        title: "Incident Reported",
+        description: "Thank you for your submission. Officials have been notified.",
+    });
+
+    // Reset form
+    setIncidentType("");
+    setLocation("");
+    setDescription("");
+  };
+
 
   const safetyGuides = [
     {
@@ -111,7 +156,7 @@ export default function CommunityHubPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {recentIncidentsData.slice(0, 3).map((incident) => (
+                        {recentIncidents.map((incident) => (
                         <TableRow key={incident.id}>
                             <TableCell>
                             <div className="font-medium">{incident.id}</div>
@@ -119,7 +164,7 @@ export default function CommunityHubPage() {
                                 {incident.location}
                             </div>
                             </TableCell>
-                            <TableCell>{t(`incidentTypes.${incident.type.toLowerCase().replace(/ /g, '')}` as any)}</TableCell>
+                            <TableCell>{t(`incidentTypes.${incident.type.toLowerCase().replace(/ /g, '')}` as any, incident.type)}</TableCell>
                             <TableCell>
                             <Badge
                                 variant={
@@ -148,7 +193,7 @@ export default function CommunityHubPage() {
         </div>
         <div className="space-y-8">
           <Card>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2"><MapPin/>{t('community.report.title')}</CardTitle>
                     <CardDescription>
@@ -158,30 +203,30 @@ export default function CommunityHubPage() {
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="incident-type">{t('community.report.form.type.label')}</Label>
-                        <Select>
+                        <Select onValueChange={setIncidentType} value={incidentType}>
                             <SelectTrigger id="incident-type">
                                 <SelectValue placeholder={t('community.report.form.type.placeholder')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="sighting">{t('community.report.form.type.options.sighting')}</SelectItem>
-                                <SelectItem value="crop-damage">{t('community.report.form.type.options.cropDamage')}</SelectItem>
-                                <SelectItem value="property-damage">{t('community.report.form.type.options.propertyDamage')}</SelectItem>
-                                <SelectItem value="attack">{t('community.report.form.type.options.attack')}</SelectItem>
-                                <SelectItem value="other">{t('community.report.form.type.options.other')}</SelectItem>
+                                <SelectItem value="Sighting">{t('community.report.form.type.options.sighting')}</SelectItem>
+                                <SelectItem value="Crop Damage">{t('community.report.form.type.options.cropDamage')}</SelectItem>
+                                <SelectItem value="Property Damage">{t('community.report.form.type.options.propertyDamage')}</SelectItem>
+                                <SelectItem value="Animal Attack">{t('community.report.form.type.options.attack')}</SelectItem>
+                                <SelectItem value="Other">{t('community.report.form.type.options.other')}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="location">{t('community.report.form.location.label')}</Label>
-                        <Input id="location" placeholder={t('community.report.form.location.placeholder')} />
+                        <Input id="location" placeholder={t('community.report.form.location.placeholder')} value={location} onChange={(e) => setLocation(e.target.value)}/>
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="description">{t('community.report.form.description.label')}</Label>
-                        <Textarea id="description" placeholder={t('community.report.form.description.placeholder')} />
+                        <Textarea id="description" placeholder={t('community.report.form.description.placeholder')} value={description} onChange={(e) => setDescription(e.target.value)} />
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button className="w-full">{t('community.report.form.submit')}</Button>
+                    <Button type="submit" className="w-full">{t('community.report.form.submit')}</Button>
                 </CardFooter>
             </form>
           </Card>
