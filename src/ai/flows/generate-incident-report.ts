@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {getIncidentsTool} from '@/ai/tools/get-incidents';
 
 const GenerateIncidentReportInputSchema = z.object({
   month: z.string().describe('The month for which to generate the report (e.g., January, February).'),
@@ -30,9 +31,13 @@ const prompt = ai.definePrompt({
   name: 'generateIncidentReportPrompt',
   input: {schema: GenerateIncidentReportInputSchema},
   output: {schema: GenerateIncidentReportOutputSchema},
+  tools: [getIncidentsTool],
   prompt: `You are an AI assistant specializing in generating monthly incident reports related to wildlife-human conflict.
 
   Generate a comprehensive report for the month of {{month}} in the year {{year}}.
+  
+  To do this, you MUST first call the getIncidentsTool to fetch all incident data.
+  Then, analyze the data provided by the tool to generate the report.
 
   The report should include:
   - A summary of the total number of incidents reported during the month.
