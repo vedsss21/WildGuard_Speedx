@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -15,12 +16,40 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { recentIncidentsData } from "@/lib/data";
+import { recentIncidentsData as initialIncidentsData } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/contexts/language-context";
 
+type Incident = typeof initialIncidentsData[0];
+
+const incidentTypes = ["Crop Damage", "Property Damage", "Animal Attack", "Sighting", "Other"];
+const locations = ["Kothrud, Pune", "Aarey Colony, Mumbai", "Sanjay Gandhi NP", "Yeoor Hills, Thane"];
+const statuses = ["Pending", "Active"];
+
+const generateRandomIncident = (): Incident => ({
+    id: `INC-${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
+    type: incidentTypes[Math.floor(Math.random() * incidentTypes.length)],
+    location: locations[Math.floor(Math.random() * locations.length)],
+    date: new Date().toISOString().split("T")[0],
+    status: statuses[Math.floor(Math.random() * statuses.length)] as "Pending" | "Active",
+    actionTaken: "Awaiting review",
+});
+
 export default function RecentIncidents() {
   const { t } = useTranslation();
+  const [incidents, setIncidents] = useState<Incident[]>(initialIncidentsData.slice(0, 4));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+        setIncidents(prevIncidents => {
+            const newIncidents = [generateRandomIncident(), ...prevIncidents];
+            return newIncidents.slice(0, 4);
+        });
+    }, 5000); // Add a new incident every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Card>
       <CardHeader>
@@ -39,7 +68,7 @@ export default function RecentIncidents() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {recentIncidentsData.map((incident) => (
+            {incidents.map((incident) => (
               <TableRow key={incident.id}>
                 <TableCell>
                   <div className="font-medium">{incident.id}</div>
