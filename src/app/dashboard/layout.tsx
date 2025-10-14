@@ -51,6 +51,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 import { SearchProvider } from "@/contexts/search-context";
+import { FirebaseClientProvider } from "@/firebase";
 
 const NAV_ITEMS = [
   { href: "/dashboard", icon: LayoutDashboard, label: "nav.dashboard" },
@@ -205,7 +206,9 @@ export default function DashboardLayout({
   return (
     <LanguageProvider>
         <SearchProvider>
+          <FirebaseClientProvider>
             <DashboardLayoutContent>{children}</DashboardLayoutContent>
+          </FirebaseClientProvider>
         </SearchProvider>
     </LanguageProvider>
   )

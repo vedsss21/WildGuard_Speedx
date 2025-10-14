@@ -1,5 +1,6 @@
+
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -16,39 +17,36 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { recentIncidentsData as initialIncidentsData } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/contexts/language-context";
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import { collection, query, orderBy, limit } from "firebase/firestore";
+import { Skeleton } from "../ui/skeleton";
 
-type Incident = typeof initialIncidentsData[0];
+type Incident = {
+  id: string;
+  type: string;
+  location: string;
+  date: string;
+  status: "Resolved" | "Active" | "Pending";
+  actionTaken: string;
+};
 
-const incidentTypes = ["Crop Damage", "Property Damage", "Animal Attack", "Sighting", "Other"];
-const locations = ["Kothrud, Pune", "Aarey Colony, Mumbai", "Sanjay Gandhi NP", "Yeoor Hills, Thane"];
-const statuses = ["Pending", "Active"];
-
-const generateRandomIncident = (): Incident => ({
-    id: `INC-${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
-    type: incidentTypes[Math.floor(Math.random() * incidentTypes.length)],
-    location: locations[Math.floor(Math.random() * locations.length)],
-    date: new Date().toISOString().split("T")[0],
-    status: statuses[Math.floor(Math.random() * statuses.length)] as "Pending" | "Active",
-    actionTaken: "Awaiting review",
-});
 
 export default function RecentIncidents() {
   const { t } = useTranslation();
-  const [incidents, setIncidents] = useState<Incident[]>(initialIncidentsData.slice(0, 4));
+  const firestore = useFirestore();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-        setIncidents(prevIncidents => {
-            const newIncidents = [generateRandomIncident(), ...prevIncidents];
-            return newIncidents.slice(0, 4);
-        });
-    }, 5000); // Add a new incident every 5 seconds
+  const incidentsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(
+        collection(firestore, 'incidents'), 
+        orderBy('date', 'desc'), 
+        limit(5)
+    );
+  }, [firestore]);
 
-    return () => clearInterval(interval);
-  }, []);
+  const { data: incidents, isLoading } = useCollection<Incident>(incidentsQuery);
 
   return (
     <Card>
@@ -68,7 +66,21 @@ export default function RecentIncidents() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {incidents.map((incident) => (
+            {isLoading && Array.from({ length: 5 }).map((_, i) => (
+                <TableRow key={i}>
+                    <TableCell>
+                        <Skeleton className="h-4 w-24 mb-2"/>
+                        <Skeleton className="h-3 w-32"/>
+                    </TableCell>
+                    <TableCell>
+                        <Skeleton className="h-4 w-20"/>
+                    </TableCell>
+                    <TableCell>
+                        <Skeleton className="h-6 w-16 rounded-full"/>
+                    </TableCell>
+                </TableRow>
+            ))}
+            {incidents && incidents.map((incident) => (
               <TableRow key={incident.id}>
                 <TableCell>
                   <div className="font-medium">{incident.id}</div>
@@ -98,6 +110,13 @@ export default function RecentIncidents() {
                 </TableCell>
               </TableRow>
             ))}
+             {incidents?.length === 0 && !isLoading && (
+                <TableRow>
+                    <TableCell colSpan={3} className="text-center text-muted-foreground">
+                        No recent incidents found.
+                    </TableCell>
+                </TableRow>
+             )}
           </TableBody>
         </Table>
       </CardContent>
