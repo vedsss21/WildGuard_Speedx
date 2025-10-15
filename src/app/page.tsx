@@ -27,6 +27,8 @@ function LandingPageContent() {
   const { t } = useTranslation();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-image');
   const wildlifeCollage = PlaceHolderImages.find(p => p.id === 'wildlife-collage');
+  const tadobaAnimalsImage = PlaceHolderImages.find(p => p.id === 'tadoba-animals');
+
 
   const ref1 = useRef(null);
   const isInView1 = useInView(ref1, { once: true });
@@ -124,6 +126,23 @@ function LandingPageContent() {
                   </Link>
                 </Button>
               </motion.div>
+              {tadobaAnimalsImage && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    className="mt-4"
+                >
+                    <Image
+                        src={tadobaAnimalsImage.imageUrl}
+                        alt={tadobaAnimalsImage.description}
+                        width={600}
+                        height={338}
+                        className="mx-auto rounded-lg object-cover shadow-lg"
+                        data-ai-hint={tadobaAnimalsImage.imageHint}
+                    />
+                </motion.div>
+              )}
             </div>
              <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 50 }}

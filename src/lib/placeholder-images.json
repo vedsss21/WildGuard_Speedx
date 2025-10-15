@@ -39,7 +39,7 @@
     {
       "id": "hero-image",
       "description": "Hero image for the landing page",
-      "imageUrl": "https://picsum.photos/seed/hero-wildlife/650/650",
+      "imageUrl": "https://picsum.photos/seed/hero-wildlife/1200/800",
       "imageHint": "wildlife nature"
     },
     {
@@ -47,6 +47,12 @@
       "description": "A collage of wildlife animals.",
       "imageUrl": "https://storage.googleapis.com/aifirebase-cloud-build-public-release-artifacts/a5344331-b996-4a4a-9c29-373f7336f33d/image.jpg",
       "imageHint": "wildlife collage"
+    },
+    {
+      "id": "tadoba-animals",
+      "description": "A collage of animals from Tadoba.",
+      "imageUrl": "https://storage.googleapis.com/aifirebase-cloud-build-public-release-artifacts/a5344331-b996-4a4a-9c29-373f7336f33d/image.jpg",
+      "imageHint": "tadoba animals"
     }
   ]
 }
