@@ -25,13 +25,14 @@ import { useTranslation } from "@/contexts/language-context";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 const LiveTrackingMap = dynamic(() => import("@/components/dashboard/live-tracking-map"), {
     ssr: false,
     loading: () => <Skeleton className="h-[300px] w-full" />,
 });
 
-const smartDevices = [
+const initialSmartDevices = [
     { id: "BUZZ-001", type: "Acoustic Buzzer", location: "Kothrud Fields", status: "Active" },
     { id: "CAM-004", type: "AI Camera", location: "Aarey Forest Edge", status: "Active" },
     { id: "SENS-012", type: "Infrared Sensor", location: "Vihighar Trail", status: "Inactive" },
@@ -44,6 +45,7 @@ export default function AlertsPage() {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioContextRef = useRef<AudioContext | null>(null);
     const oscillatorRef = useRef<OscillatorNode | null>(null);
+    const [smartDevices, setSmartDevices] = useState(initialSmartDevices);
 
     const initialLiveAlerts = [
         { time: t('alerts.live.time1'), device: "CAM-004", alert: t('alerts.live.alert1'), priority: "High" },
@@ -102,6 +104,16 @@ export default function AlertsPage() {
         });
     }
 
+    const toggleDeviceStatus = (deviceId: string) => {
+        setSmartDevices(currentDevices =>
+          currentDevices.map(device =>
+            device.id === deviceId
+              ? { ...device, status: device.status === 'Active' ? 'Inactive' : 'Active' }
+              : device
+          )
+        );
+      };
+
     return (
         <div className="flex flex-col gap-8">
             <h1 className="text-3xl font-bold font-headline tracking-tight">
@@ -145,12 +157,24 @@ export default function AlertsPage() {
                                             <TableCell>{t(`alerts.devices.types.${device.type.toLowerCase().replace(' ','-')}` as any)}</TableCell>
                                             <TableCell>{device.location}</TableCell>
                                             <TableCell>
-                                                <Badge variant={device.status === 'Active' ? 'default' : 'secondary'} className={device.status === 'Active' ? 'bg-green-600/20 text-green-700' : ''}>
-                                                    {t(`alerts.devices.status.${device.status.toLowerCase()}` as any)}
-                                                </Badge>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="p-0 h-auto"
+                                                    onClick={() => toggleDeviceStatus(device.id)}
+                                                    aria-label={`Toggle status for ${device.id}`}
+                                                >
+                                                    <Badge variant={device.status === 'Active' ? 'default' : 'secondary'} className={cn("cursor-pointer", device.status === 'Active' ? 'bg-green-600/20 text-green-700' : '')}>
+                                                        {t(`alerts.devices.status.${device.status.toLowerCase()}` as any)}
+                                                    </Badge>
+                                                </Button>
                                             </TableCell>
                                             <TableCell className="text-right flex items-center justify-end gap-2">
-                                                <Switch aria-label={`Toggle ${device.id}`} checked={device.status === 'Active'} />
+                                                <Switch 
+                                                    aria-label={`Toggle ${device.id}`} 
+                                                    checked={device.status === 'Active'} 
+                                                    onCheckedChange={() => toggleDeviceStatus(device.id)}
+                                                />
                                                 <Button variant="ghost" size="icon">
                                                     <Bell className="h-4 w-4" />
                                                     <span className="sr-only">{t('alerts.devices.testAlert')}</span>
@@ -206,5 +230,3 @@ export default function AlertsPage() {
         </div>
     );
 }
-
-    
