@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { PT_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({
+const ptSans = PT_Sans({
   subsets: ["latin"],
+  weight: ["400", "700"],
   variable: "--font-sans",
 });
 
@@ -23,27 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("font-sans antialiased", inter.variable)}>
-        <svg width="0" height="0" className="absolute">
-            <defs>
-                <linearGradient id="fillBar" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                    offset="5%"
-                    stopColor="var(--color-chart1-stop-1)"
-                    stopOpacity={0.8}
-                    />
-                    <stop
-                    offset="95%"
-                    stopColor="var(--color-chart1-stop-2)"
-                    stopOpacity={0.1}
-                    />
-                </linearGradient>
-                <linearGradient id="fillTrend" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--color-primary-stop-1)" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="var(--color-primary-stop-2)" stopOpacity={0.1}/>
-                </linearGradient>
-            </defs>
-        </svg>
+      <body className={cn("font-sans antialiased", ptSans.variable)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
