@@ -2,51 +2,51 @@
   "placeholderImages": [
     {
       "id": "map-view",
-      "description": "An artistic representation of a forest with animals.",
-      "imageUrl": "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "forest illustration"
+      "description": "An artistic representation of a dense jungle.",
+      "imageUrl": "https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "jungle path"
     },
     {
       "id": "avatar-1",
-      "description": "User avatar 1 - Red Panda",
-      "imageUrl": "https://images.unsplash.com/photo-1542880942-0335c4583949?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "red panda"
+      "description": "User avatar 1 - Tiger cub",
+      "imageUrl": "https://images.unsplash.com/photo-1595163140502-1a4c8402f06b?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "tiger cub"
     },
     {
       "id": "avatar-2",
-      "description": "User avatar 2 - Fox",
-      "imageUrl": "https://images.unsplash.com/photo-1474511320723-9a56873867b5?q=80&w=2072&auto=format&fit=crop",
-      "imageHint": "fox portrait"
+      "description": "User avatar 2 - Leopard",
+      "imageUrl": "https://images.unsplash.com/photo-1574100004472-e536d3b6bacc?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "leopard portrait"
     },
     {
       "id": "avatar-3",
-      "description": "User avatar 3 - Owl",
-      "imageUrl": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?q=80&w=1925&auto=format&fit=crop",
-      "imageHint": "owl close-up"
+      "description": "User avatar 3 - Bear",
+      "imageUrl": "https://images.unsplash.com/photo-1530584497972-23ce79b94065?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "bear forest"
     },
     {
       "id": "avatar-4",
-      "description": "User avatar 4 - Deer",
+      "description": "User avatar 4 - Deer in a forest",
       "imageUrl": "https://images.unsplash.com/photo-1507563742695-a28ff7567d40?q=80&w=2070&auto=format&fit=crop",
       "imageHint": "deer forest"
     },
     {
       "id": "user-profile",
-      "description": "Main user profile avatar - Wolf",
-      "imageUrl": "https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "wolf portrait"
+      "description": "Main user profile avatar - Majestic Tiger",
+      "imageUrl": "https://images.unsplash.com/photo-1601758176586-253073289a38?q=80&w=1935&auto=format&fit=crop",
+      "imageHint": "tiger face"
     },
     {
       "id": "hero-image",
-      "description": "Hero image for the landing page - Tiger in jungle",
+      "description": "Hero image for the landing page - Tiger in its natural habitat",
       "imageUrl": "https://images.unsplash.com/photo-1551893478-d726eaf0442c?q=80&w=2070&auto=format&fit=crop",
       "imageHint": "tiger jungle"
     },
     {
       "id": "wildlife-collage",
-      "description": "A collage of wildlife animals - Leopard",
-      "imageUrl": "https://images.unsplash.com/photo-1574100004472-e536d3b6bacc?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "leopard portrait"
+      "description": "A collage of wildlife animals - A close-up of a tiger's face",
+      "imageUrl": "https://images.unsplash.com/photo-1591823730310-85888355b0a3?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "tiger face"
     },
     {
       "id": "tadoba-animals",
@@ -64,7 +64,7 @@
       "id": "login-background",
       "description": "Jungle background for login page.",
       "imageUrl": "https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "jungle background"
+      "imageHint": "jungle path"
     },
     {
       "id": "dashboard-background",
