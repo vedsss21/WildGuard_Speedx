@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef, useEffect, useState } from 'react';
@@ -12,6 +13,10 @@ const getAnimalIcon = (animal: string) => {
     let icon;
     let color;
     switch(animal) {
+        case 'Tiger':
+            icon = <PawPrint className="h-6 w-6" />;
+            color = '#f97316'; // Orange-500
+            break;
         case 'Leopard':
             icon = <PawPrint className="h-6 w-6" />;
             color = '#f59e0b'; // Amber-500
@@ -46,9 +51,10 @@ const getAnimalIcon = (animal: string) => {
 
 
 const initialAnimalData = [
-    { id: 'leo1', type: 'Leopard', lat: 19.9615, lng: 79.2961 },
-    { id: 'ele1', type: 'Elephant', lat: 19.9650, lng: 79.3000 },
-    { id: 'bird1', type: 'Bird', lat: 19.9580, lng: 79.2900 },
+    { id: 'tiger1', type: 'Tiger', lat: 20.2550, lng: 79.3350 },
+    { id: 'leo1', type: 'Leopard', lat: 20.2450, lng: 79.3250 },
+    { id: 'ele1', type: 'Elephant', lat: 20.2650, lng: 79.3400 },
+    { id: 'bird1', type: 'Bird', lat: 20.2500, lng: 79.3300 },
 ]
 
 export default function LiveTrackingMap() {
@@ -59,7 +65,7 @@ export default function LiveTrackingMap() {
 
     useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) { 
-            mapRef.current = L.map(mapContainerRef.current).setView([19.9615, 79.2961], 13);
+            mapRef.current = L.map(mapContainerRef.current).setView([20.25, 79.33], 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

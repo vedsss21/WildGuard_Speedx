@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef, useEffect } from 'react';
@@ -11,12 +12,12 @@ import { cn } from '@/lib/utils';
 import ReactDOMServer from 'react-dom/server';
 import { useTranslation } from '@/contexts/language-context';
 
-// Mock coordinates for incidents around Chandrapur
+// Mock coordinates for incidents around Tadoba Andhari Tiger Reserve
 const incidentLocations = [
-    { lat: 19.9615, lng: 79.2961 }, // Chandrapur Center
-    { lat: 19.9715, lng: 79.3061 }, // Near Chandrapur
-    { lat: 19.9515, lng: 79.2861 }, // Near Chandrapur
-    { lat: 20.0000, lng: 79.3500 }, // North of Chandrapur
+    { lat: 20.2500, lng: 79.3333 }, // Tadoba Center
+    { lat: 20.2700, lng: 79.3433 }, // North of Tadoba
+    { lat: 20.2300, lng: 79.3233 }, // South of Tadoba
+    { lat: 20.2550, lng: 79.3500 }, // East of Tadoba
 ];
 
 const PopupContent = ({ incident, t }: { incident: (typeof recentIncidentsData)[0], t: (key: string) => string }) => (
@@ -56,7 +57,7 @@ export default function MapViewFull() {
 
     useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) { 
-            mapRef.current = L.map(mapContainerRef.current).setView([19.9615, 79.2961], 12);
+            mapRef.current = L.map(mapContainerRef.current).setView([20.25, 79.33], 12);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
