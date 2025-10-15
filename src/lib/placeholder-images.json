@@ -3,37 +3,37 @@
     {
       "id": "map-view",
       "description": "An artistic representation of a dense jungle.",
-      "imageUrl": "https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "jungle path"
+      "imageUrl": "https://images.unsplash.com/photo-1444464666168-49d633b86797?q=80&w=2069&auto=format&fit=crop",
+      "imageHint": "jungle canopy"
     },
     {
       "id": "avatar-1",
-      "description": "User avatar 1 - Tiger cub",
-      "imageUrl": "https://images.unsplash.com/photo-1595163140502-1a4c8402f06b?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "tiger cub"
+      "description": "User avatar 1 - A vibrant, colorful bird.",
+      "imageUrl": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?q=80&w=1925&auto=format&fit=crop",
+      "imageHint": "colorful bird"
     },
     {
       "id": "avatar-2",
-      "description": "User avatar 2 - Leopard",
-      "imageUrl": "https://images.unsplash.com/photo-1574100004472-e536d3b6bacc?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "leopard portrait"
+      "description": "User avatar 2 - A red panda in a tree.",
+      "imageUrl": "https://images.unsplash.com/photo-1542880942-c941744d9f7a?q=80&w=1974&auto=format&fit=crop",
+      "imageHint": "red panda"
     },
     {
       "id": "avatar-3",
-      "description": "User avatar 3 - Bear",
-      "imageUrl": "https://images.unsplash.com/photo-1530584497972-23ce79b94065?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "bear forest"
+      "description": "User avatar 3 - A close-up of a monkey's face.",
+      "imageUrl": "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "monkey face"
     },
     {
       "id": "avatar-4",
-      "description": "User avatar 4 - Deer in a forest",
-      "imageUrl": "https://images.unsplash.com/photo-1507563742695-a28ff7567d40?q=80&w=2070&auto=format&fit=crop",
+      "description": "User avatar 4 - A deer in a lush forest.",
+      "imageUrl": "https://images.unsplash.com/photo-1497752531616-c325b6416e8e?q=80&w=1972&auto=format&fit=crop",
       "imageHint": "deer forest"
     },
     {
       "id": "user-profile",
       "description": "Main user profile avatar - Majestic Tiger",
-      "imageUrl": "https://images.unsplash.com/photo-1601758176586-253073289a38?q=80&w=1935&auto=format&fit=crop",
+      "imageUrl": "https://images.unsplash.com/photo-1591823730310-85888355b0a3?q=80&w=2070&auto=format&fit=crop",
       "imageHint": "tiger face"
     },
     {
@@ -44,9 +44,9 @@
     },
     {
       "id": "wildlife-collage",
-      "description": "A collage of wildlife animals - A close-up of a tiger's face",
-      "imageUrl": "https://images.unsplash.com/photo-1591823730310-85888355b0a3?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "tiger face"
+      "description": "A collage of wildlife animals - A close-up of a leopard.",
+      "imageUrl": "https://images.unsplash.com/photo-1574100004472-e536d3b6bacc?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "leopard portrait"
     },
     {
       "id": "tadoba-animals",
