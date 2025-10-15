@@ -24,20 +24,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSidebar } from "../ui/sidebar";
 import { useTranslation } from "@/contexts/language-context";
 import { Input } from "../ui/input";
 import { useSearch } from "@/contexts/search-context";
+import { useUser } from "@/firebase";
 
 export default function Header() {
   const isMobile = useIsMobile();
   const { toggleSidebar } = useSidebar();
   const { setTheme } = useTheme();
-  const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
+  const { user } = useUser();
   const { setLanguage, t } = useTranslation();
   const { searchQuery, setSearchQuery } = useSearch();
+
+  const userProfileImage = user?.photoURL;
+  const fallback = user?.displayName?.charAt(0) || user?.email?.charAt(0) || 'U';
 
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -118,17 +121,17 @@ export default function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8 border-2 border-primary">
-                  <AvatarImage src={userProfileImage?.imageUrl} alt="User avatar" data-ai-hint={userProfileImage?.imageHint}/>
-                  <AvatarFallback>AD</AvatarFallback>
+                  <AvatarImage src={userProfileImage ?? undefined} alt={user?.displayName || "User avatar"}/>
+                  <AvatarFallback>{fallback}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{t('user.name')}</p>
+                  <p className="text-sm font-medium leading-none">{user?.displayName ?? t('user.name')}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {t('user.email')}
+                    {user?.email ?? t('user.email')}
                   </p>
                 </div>
               </DropdownMenuLabel>

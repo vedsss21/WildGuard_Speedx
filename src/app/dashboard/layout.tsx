@@ -51,7 +51,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 import { SearchProvider } from "@/contexts/search-context";
-import { FirebaseClientProvider } from "@/firebase";
+import { FirebaseClientProvider, useUser } from "@/firebase";
 
 const NAV_ITEMS = [
   { href: "/dashboard", icon: LayoutDashboard, label: "nav.dashboard" },
@@ -93,7 +93,9 @@ function DashboardNav() {
 
 function UserMenu() {
   const { t } = useTranslation();
-  const userProfileImage = PlaceHolderImages.find(p => p.id === 'user-profile');
+  const { user } = useUser();
+  const userProfileImage = user?.photoURL;
+  const fallback = user?.displayName?.charAt(0) || user?.email?.charAt(0) || 'U';
 
   return (
     <div
@@ -107,20 +109,19 @@ function UserMenu() {
           <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
             <Avatar className="h-10 w-10 border-2 border-primary">
               <AvatarImage
-                src={userProfileImage?.imageUrl}
-                alt="User avatar"
-                data-ai-hint={userProfileImage?.imageHint}
+                src={userProfileImage ?? undefined}
+                alt={user?.displayName || "User avatar"}
               />
-              <AvatarFallback>AD</AvatarFallback>
+              <AvatarFallback>{fallback}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{t('user.name')}</p>
+              <p className="text-sm font-medium leading-none">{user?.displayName ?? t('user.name')}</p>
               <p className="text-xs leading-none text-muted-foreground">
-                {t('user.email')}
+                {user?.email ?? t('user.email')}
               </p>
             </div>
           </DropdownMenuLabel>
@@ -142,7 +143,7 @@ function UserMenu() {
       </DropdownMenu>
 
       <div className="duration-200 flex flex-col transition-opacity ease-linear group-data-[collapsible=icon]:hidden">
-        <span className="font-semibold text-sidebar-foreground">{t('user.name')}</span>
+        <span className="font-semibold text-sidebar-foreground">{user?.displayName ?? t('user.name')}</span>
         <span className="text-xs text-sidebar-foreground/70">
           {t('user.role')}
         </span>
