@@ -19,7 +19,7 @@ import { Icons } from "@/components/icons";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { useAuth } from "@/firebase";
+import { FirebaseClientProvider, useAuth } from "@/firebase";
 import { initiateEmailSignIn, initiateGoogleSignIn } from "@/firebase/non-blocking-login";
 
 function LoginPageContent() {
@@ -128,8 +128,10 @@ function LoginPageContent() {
 
 export default function LoginPage() {
     return (
+      <FirebaseClientProvider>
         <LanguageProvider>
             <LoginPageContent />
         </LanguageProvider>
+      </FirebaseClientProvider>
     )
 }
