@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -19,28 +19,35 @@ import { Icons } from "@/components/icons";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { FirebaseClientProvider, useAuth } from "@/firebase";
+import { FirebaseClientProvider, useAuth, useUser } from "@/firebase";
 import { initiateEmailSignIn, initiateGoogleSignIn } from "@/firebase/non-blocking-login";
 
 function LoginPageContent() {
   const router = useRouter();
   const auth = useAuth();
+  const { user, isUserLoading } = useUser();
   const { t } = useTranslation();
   const [username, setUsername] = useState("admin@wildguard.gov");
   const [password, setPassword] = useState("password");
   const loginBgImage = PlaceHolderImages.find(p => p.id === 'login-background');
 
+  useEffect(() => {
+    // If the user is successfully authenticated and no longer loading, redirect to dashboard.
+    if (!isUserLoading && user) {
+      router.push("/dashboard");
+    }
+  }, [user, isUserLoading, router]);
+
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (!auth) return;
     initiateEmailSignIn(auth, username, password);
-    router.push("/dashboard");
   };
 
   const handleGoogleSignIn = () => {
     if (auth) {
       initiateGoogleSignIn(auth);
-      router.push("/dashboard");
     }
   };
 
