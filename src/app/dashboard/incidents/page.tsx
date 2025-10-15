@@ -42,7 +42,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { recentIncidentsData as data } from "@/lib/data";
+import { recentIncidentsData as initialData } from "@/lib/data";
 import {
     Card,
     CardContent,
@@ -52,19 +52,66 @@ import {
   } from "@/components/ui/card";
 import { useTranslation } from "@/contexts/language-context";
 import { useSearch } from "@/contexts/search-context";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { IncidentForm } from "@/components/dashboard/incident-form";
+import { addDocumentNonBlocking, updateDocumentNonBlocking } from "@/firebase";
+import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
+import { collection, doc, query, orderBy } from 'firebase/firestore';
 
-type Incident = {
+export type Incident = {
   id: string;
   type: string;
   location: string;
   date: string;
   status: "Resolved" | "Active" | "Pending";
   actionTaken: string;
+  description?: string;
+  animalType?: string;
 };
 
 export default function IncidentsPage() {
   const { t } = useTranslation();
   const { searchQuery } = useSearch();
+  const [open, setOpen] = React.useState(false);
+  const [selectedIncident, setSelectedIncident] = React.useState<Incident | undefined>(undefined);
+  const firestore = useFirestore();
+
+  const incidentsCollection = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return collection(firestore, 'incidents');
+  }, [firestore]);
+
+  const { data: incidentsData, isLoading } = useCollection<Incident>(incidentsCollection);
+  const data = incidentsData || [];
+
+  const handleEdit = (incident: Incident) => {
+    setSelectedIncident(incident);
+    setOpen(true);
+  };
+
+  const handleAddNew = () => {
+    setSelectedIncident(undefined);
+    setOpen(true);
+  };
+
+  const handleSubmit = (values: Omit<Incident, 'id' | 'date'>) => {
+    if (!firestore) return;
+    if (selectedIncident) {
+      // Update existing incident
+      const incidentRef = doc(firestore, 'incidents', selectedIncident.id);
+      updateDocumentNonBlocking(incidentRef, values);
+    } else {
+      // Add new incident
+      if (incidentsCollection) {
+        addDocumentNonBlocking(incidentsCollection, {
+            ...values,
+            date: new Date().toISOString().split("T")[0],
+            id: `INC-${Math.random().toString(36).substring(2, 9).toUpperCase()}` // Mock ID, Firestore generates real one
+        });
+      }
+    }
+    setOpen(false);
+  };
 
   const columns: ColumnDef<Incident>[] = [
     {
@@ -150,8 +197,8 @@ export default function IncidentsPage() {
       header: t('incidents.table.actionTaken'),
       cell: ({row}) => {
         const action = row.getValue("actionTaken") as string;
-        const key = action.toLowerCase().replace(/\. /g, ' ').replace(/\./g, '').replace(/ /g, '-');
-        return t(`actionsTaken.${key}` as any)
+        const key = action?.toLowerCase().replace(/\. /g, ' ').replace(/\./g, '').replace(/ /g, '-') || '';
+        return t(`actionsTaken.${key}` as any, action)
       }
     },
     {
@@ -168,6 +215,9 @@ export default function IncidentsPage() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{t('incidents.table.actions.title')}</DropdownMenuLabel>
+               <DropdownMenuItem onClick={() => handleEdit(incident)}>
+                Edit Incident
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(incident.id)}
               >
@@ -219,137 +269,155 @@ export default function IncidentsPage() {
       <h1 className="text-3xl font-bold font-headline tracking-tight">
         {t('nav.manageIncidents')}
       </h1>
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('incidents.log.title')}</CardTitle>
-          <CardDescription>
-            {t('incidents.log.description')}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center py-4">
-            <Input
-              placeholder={t('incidents.filterPlaceholder')}
-              value={
-                (table.getColumn("location")?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table.getColumn("location")?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto">
-                  {t('incidents.columnsButton')} <ChevronDownIcon className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
-                    const translationKey = `incidents.table.${column.id}`;
-                    let translation = t(translationKey);
-                    if (typeof translation === 'object' && column.id === 'actions') {
-                      translation = t('incidents.table.actions.title');
-                    } else if (typeof translation === 'object') {
-                      translation = column.id; // Fallback to column id
-                    }
-                    return (
-                      <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) =>
-                          column.toggleVisibility(!!value)
-                        }
-                      >
-                        {translation}
-                      </DropdownMenuCheckboxItem>
-                    );
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      );
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && "selected"}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <Card>
+            <CardHeader>
+            <CardTitle>{t('incidents.log.title')}</CardTitle>
+            <CardDescription>
+                {t('incidents.log.description')}
+            </CardDescription>
+            </CardHeader>
+            <CardContent>
+            <div className="flex items-center justify-between py-4">
+                <Input
+                placeholder={t('incidents.filterPlaceholder')}
+                value={
+                    (table.getColumn("location")?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                    table.getColumn("location")?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+                />
+                <div className="flex gap-2">
+                    <Button onClick={handleAddNew}>Add Incident</Button>
+                    <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                        {t('incidents.columnsButton')} <ChevronDownIcon className="ml-2 h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                        .getAllColumns()
+                        .filter((column) => column.getCanHide())
+                        .map((column) => {
+                            const translationKey = `incidents.table.${column.id}`;
+                            let translation = t(translationKey);
+                            if (typeof translation === 'object' && column.id === 'actions') {
+                            translation = t('incidents.table.actions.title');
+                            } else if (typeof translation === 'object') {
+                            translation = column.id; // Fallback to column id
+                            }
+                            return (
+                            <DropdownMenuCheckboxItem
+                                key={column.id}
+                                className="capitalize"
+                                checked={column.getIsVisible()}
+                                onCheckedChange={(value) =>
+                                column.toggleVisibility(!!value)
+                                }
+                            >
+                                {translation}
+                            </DropdownMenuCheckboxItem>
+                            );
+                        })}
+                    </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            </div>
+            <div className="rounded-md border">
+                <Table>
+                <TableHeader>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => {
+                        return (
+                            <TableHead key={header.id}>
+                            {header.isPlaceholder
+                                ? null
+                                : flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext()
+                                )}
+                            </TableHead>
+                        );
+                        })}
                     </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      {t('incidents.noResults')}
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-          <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
-              {t('incidents.selectedRows', {
-                selected: table.getFilteredSelectedRowModel().rows.length,
-                total: table.getFilteredRowModel().rows.length,
-              })}
+                    ))}
+                </TableHeader>
+                <TableBody>
+                    {table.getRowModel().rows?.length ? (
+                    table.getRowModel().rows.map((row) => (
+                        <TableRow
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
+                        >
+                        {row.getVisibleCells().map((cell) => (
+                            <TableCell key={cell.id}>
+                            {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                            )}
+                            </TableCell>
+                        ))}
+                        </TableRow>
+                    ))
+                    ) : (
+                    <TableRow>
+                        <TableCell
+                        colSpan={columns.length}
+                        className="h-24 text-center"
+                        >
+                        {isLoading ? "Loading incidents..." : t('incidents.noResults')}
+                        </TableCell>
+                    </TableRow>
+                    )}
+                </TableBody>
+                </Table>
             </div>
-            <div className="space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                {t('incidents.previous')}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                {t('incidents.next')}
-              </Button>
+            <div className="flex items-center justify-end space-x-2 py-4">
+                <div className="flex-1 text-sm text-muted-foreground">
+                {t('incidents.selectedRows', {
+                    selected: table.getFilteredSelectedRowModel().rows.length,
+                    total: table.getFilteredRowModel().rows.length,
+                })}
+                </div>
+                <div className="space-x-2">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    {t('incidents.previous')}
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    {t('incidents.next')}
+                </Button>
+                </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+        </Card>
+
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>{selectedIncident ? 'Edit Incident' : 'Add New Incident'}</DialogTitle>
+                <DialogDescription>
+                    {selectedIncident ? 'Update the details for this incident.' : 'Fill out the form to log a new incident.'}
+                </DialogDescription>
+            </DialogHeader>
+            <IncidentForm 
+                onSubmit={handleSubmit}
+                incident={selectedIncident} 
+            />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
