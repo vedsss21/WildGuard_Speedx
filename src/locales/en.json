@@ -32,7 +32,7 @@
         "manageIncidents": "Manage Incidents",
         "alerts": "Alerts",
         "rangers": "Rangers",
-        "offline": "Offline Reports"
+        "offline": "Offline Detector"
     },
     "landing": {
         "login": "Login",
@@ -221,6 +221,16 @@
                 "inactive": "Inactive"
             },
             "testAlert": "Test Alert"
+        },
+        "emergency": {
+            "title": "Emergency Actions",
+            "description": "Quick actions for critical situations.",
+            "smsInfo": "A pre-defined SMS will be sent to registered villagers in the vicinity of the high-priority alert.",
+            "buttonText": "Send SMS to Villagers",
+            "toast": {
+                "title": "SMS Alert Sent",
+                "description": "A warning message has been broadcast to villagers in the affected area."
+            }
         }
     },
     "analyzer": {
@@ -391,18 +401,18 @@
         "actionTaken": "Action Taken"
     },
     "offline": {
-        "title": "Offline Reporting",
+        "title": "Offline Detector",
         "sync": {
-            "title": "Sync Data from Device",
-            "description": "Connect your Arduino-based device and upload the stored incident data.",
-            "placeholder": "Connect your device via USB to begin the sync process.",
-            "button": "Upload Device Data"
+            "title": "Process Offline Image",
+            "description": "Upload an image captured by an offline device to analyze it for animal presence.",
+            "placeholder": "Image will be previewed here after selection.",
+            "button": "Select Image"
         },
         "generate": {
-            "title": "Generate Offline Report",
-            "description": "Create a report from the data collected while offline.",
-            "placeholder": "Once data is synced, you can generate a report here.",
-            "button": "Generate Report"
+            "title": "Detection Result",
+            "description": "Analysis of the uploaded image will appear here.",
+            "placeholder": "Analysis results will be displayed here.",
+            "button": "Process Image"
         },
         "pending": {
             "title": "Pending Sync Data",
@@ -441,5 +451,25 @@
             "resultLabel": "Generated Analysis",
             "button": "Generate Analysis"
         }
+    },
+    "detector": {
+        "title": "Live Animal Detector",
+        "card": {
+            "title": "Live Camera Feed",
+            "description": "The model is specially trained to detect tigers with high accuracy, but can identify other animals as well.",
+            "analyzing": "Analyzing Feed...",
+            "start": "Start Detection"
+        },
+        "permissions": {
+            "title": "Camera Access Required",
+            "description": "Please allow camera access in your browser to use this feature."
+        },
+        "result": {
+            "title": "Detection Result: {animal}",
+            "description": "The model has identified a {animal} with high confidence.",
+            "accuracy": "{confidence}% Accuracy"
+        }
     }
 }
+
+    

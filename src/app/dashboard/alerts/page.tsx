@@ -121,8 +121,8 @@ export default function AlertsPage() {
 
     const handleSendSms = () => {
         toast({
-            title: "SMS Alert Sent",
-            description: "A warning message has been broadcast to villagers in the affected area.",
+            title: t('alerts.emergency.toast.title'),
+            description: `${t('alerts.emergency.toast.description')}`,
         });
     }
 
@@ -233,17 +233,17 @@ export default function AlertsPage() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><MessageSquareWarning/> Emergency Actions</CardTitle>
-                            <CardDescription>Quick actions for critical situations.</CardDescription>
+                            <CardTitle className="flex items-center gap-2"><MessageSquareWarning/> {t('alerts.emergency.title')}</CardTitle>
+                            <CardDescription>{t('alerts.emergency.description')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <p className="text-sm text-muted-foreground mb-4">
-                                A pre-defined SMS will be sent to registered villagers in the vicinity of the high-priority alert.
+                                {t('alerts.emergency.smsInfo')}
                             </p>
                         </CardContent>
                         <CardFooter>
                             <Button className="w-full" variant="destructive" onClick={handleSendSms}>
-                                Send SMS to Villagers
+                                {t('alerts.emergency.buttonText')}
                             </Button>
                         </CardFooter>
                     </Card>
@@ -252,3 +252,5 @@ export default function AlertsPage() {
         </div>
     );
 }
+
+    
