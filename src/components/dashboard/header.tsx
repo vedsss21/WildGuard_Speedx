@@ -24,23 +24,64 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useSidebar } from "../ui/sidebar";
 import { useTranslation } from "@/contexts/language-context";
 import { Input } from "../ui/input";
 import { useSearch } from "@/contexts/search-context";
 import { useUser } from "@/firebase";
 
+function UserMenu() {
+    const { t } = useTranslation();
+    const { user } = useUser();
+    const userProfileImage = user?.photoURL;
+    const fallback = user?.displayName?.charAt(0) || user?.email?.charAt(0) || 'U';
+  
+    return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+              <Avatar className="h-10 w-10 border-2 border-primary">
+                <AvatarImage
+                  src={userProfileImage ?? undefined}
+                  alt={user?.displayName || "User avatar"}
+                />
+                <AvatarFallback>{fallback}</AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{user?.displayName ?? t('user.name')}</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {user?.email ?? t('user.email')}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              <span>{t('user.menu.profile')}</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>{t('user.menu.settings')}</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <LogOut className="mr-2 h-4 w-4" />
+               <Link href="/">{t('user.menu.logout')}</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
+
 export default function Header() {
-  const isMobile = useIsMobile();
   const { toggleSidebar } = useSidebar();
   const { setTheme } = useTheme();
-  const { user } = useUser();
   const { setLanguage, t } = useTranslation();
   const { searchQuery, setSearchQuery } = useSearch();
-
-  const userProfileImage = user?.photoURL;
-  const fallback = user?.displayName?.charAt(0) || user?.email?.charAt(0) || 'U';
 
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -72,10 +113,6 @@ export default function Header() {
       </div>
       
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" onClick={toggleSidebar} className="hidden md:flex">
-          <Menu className="h-6 w-6" />
-          <span className="sr-only">Toggle sidebar</span>
-        </Button>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -115,43 +152,7 @@ export default function Header() {
           <Bell className="h-5 w-5" />
           <span className="sr-only">{t('header.toggleNotifications')}</span>
         </Button>
-
-        {isMobile && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8 border-2 border-primary">
-                  <AvatarImage src={userProfileImage ?? undefined} alt={user?.displayName || "User avatar"}/>
-                  <AvatarFallback>{fallback}</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user?.displayName ?? t('user.name')}</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {user?.email ?? t('user.email')}
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>{t('user.menu.profile')}</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>{t('user.menu.settings')}</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <LogOut className="mr-2 h-4 w-4" />
-                 <Link href="/">{t('user.menu.logout')}</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+        <UserMenu />
       </div>
     </header>
   );

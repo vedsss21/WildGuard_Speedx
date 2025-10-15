@@ -4,20 +4,15 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import {
   Activity,
   Award,
   BarChart3,
   Beaker,
-  Bell,
   Handshake,
   LayoutDashboard,
-  LogOut,
   Map,
-  Settings,
   ShieldAlert,
-  User,
   Users,
   Siren,
   WifiOff,
@@ -34,24 +29,13 @@ import {
   SidebarFooter,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 
 import { Icons } from "@/components/icons";
 import Header from "@/components/dashboard/header";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { cn } from "@/lib/utils";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
 import { SearchProvider } from "@/contexts/search-context";
-import { FirebaseClientProvider, useUser } from "@/firebase";
+import { FirebaseClientProvider } from "@/firebase";
 
 const NAV_ITEMS = [
   { href: "/dashboard", icon: LayoutDashboard, label: "nav.dashboard" },
@@ -91,73 +75,12 @@ function DashboardNav() {
   )
 }
 
-function UserMenu() {
-  const { t } = useTranslation();
-  const { user } = useUser();
-  const userProfileImage = user?.photoURL;
-  const fallback = user?.displayName?.charAt(0) || user?.email?.charAt(0) || 'U';
-
-  return (
-    <div
-      className={cn(
-        "p-2 rounded-lg flex items-center gap-3",
-        "group-data-[collapsible=icon]:p-1 group-data-[collapsible=icon]:justify-center"
-      )}
-    >
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
-            <Avatar className="h-10 w-10 border-2 border-primary">
-              <AvatarImage
-                src={userProfileImage ?? undefined}
-                alt={user?.displayName || "User avatar"}
-              />
-              <AvatarFallback>{fallback}</AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{user?.displayName ?? t('user.name')}</p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {user?.email ?? t('user.email')}
-              </p>
-            </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>{t('user.menu.profile')}</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>{t('user.menu.settings')}</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <LogOut className="mr-2 h-4 w-4" />
-            <Link href="/">{t('user.menu.logout')}</Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      <div className="duration-200 flex flex-col transition-opacity ease-linear group-data-[collapsible=icon]:hidden">
-        <span className="font-semibold text-sidebar-foreground">{user?.displayName ?? t('user.name')}</span>
-        <span className="text-xs text-sidebar-foreground/70">
-          {t('user.role')}
-        </span>
-      </div>
-    </div>
-  )
-}
 
 function DashboardLayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { t } = useTranslation();
   const dashboardBg = PlaceHolderImages.find(p => p.id === 'dashboard-background');
 
   return (
@@ -182,7 +105,7 @@ function DashboardLayoutContent({
         </SidebarContent>
 
         <SidebarFooter className="p-2 mt-auto border-t border-sidebar-border">
-          <UserMenu />
+          {/* UserMenu was here */}
         </SidebarFooter>
       </Sidebar>
 
