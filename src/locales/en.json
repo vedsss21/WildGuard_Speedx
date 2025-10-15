@@ -13,7 +13,7 @@
     },
     "user": {
         "name": "Admin User",
-        "email": "admin@ecoguardian.gov",
+        "email": "admin@wildguard.gov",
         "role": "Official",
         "menu": {
             "profile": "Profile",
@@ -37,11 +37,11 @@
     "landing": {
         "login": "Login",
         "signUp": "Sign Up",
-        "title": "EcoGuardian: For a Balanced Coexistence",
+        "title": "WildGuard: For a Balanced Coexistence",
         "subtitle": "Leveraging cutting-edge technology to monitor, analyze, and mitigate human-wildlife conflict. Join us in creating a safer world for both humans and animals.",
         "ctaDashboard": "Go to Dashboard",
         "ctaGetStarted": "Get Started",
-        "footer": "© 2024 EcoGuardian. All rights reserved.",
+        "footer": "© 2024 WildGuard. All rights reserved.",
         "features": {
             "supertitle": "Key Features",
             "title": "Protecting Wildlife, Empowering Communities",

@@ -171,7 +171,7 @@ function DashboardLayoutContent({
             className="duration-200 flex items-center gap-2 text-sidebar-foreground transition-opacity ease-linear group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:opacity-0"
           >
             <Icons.Logo className="size-7 text-primary" />
-            <span className="text-lg font-bold font-headline">EcoGuardian</span>
+            <span className="text-lg font-bold font-headline">WildGuard</span>
           </Link>
         </SidebarHeader>
 
@@ -190,7 +190,7 @@ function DashboardLayoutContent({
           {children}
         </main>
         <footer className="flex items-center justify-center p-6 bg-background relative z-10">
-            <p className="text-sm text-muted-foreground">© 2025 EcoGuardian. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">© 2025 WildGuard. All rights reserved.</p>
         </footer>
       </SidebarInset>
     </SidebarProvider>

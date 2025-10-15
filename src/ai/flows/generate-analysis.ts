@@ -29,7 +29,7 @@ const prompt = ai.definePrompt({
   name: 'generateAnalysisPrompt',
   input: {schema: GenerateAnalysisInputSchema},
   output: {schema: GenerateAnalysisOutputSchema},
-  prompt: `You are an expert data analyst for EcoGuardian, a platform that tracks human-wildlife conflict.
+  prompt: `You are an expert data analyst for WildGuard, a platform that tracks human-wildlife conflict.
   Your task is to analyze incident data based on user queries and provide a clear, insightful summary.
 
   You have access to a conceptual database of incidents with the following fields:

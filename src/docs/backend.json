@@ -1,0 +1,138 @@
+{
+  "entities": {
+    "Incident": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Incident",
+      "type": "object",
+      "description": "Represents a wildlife-human conflict incident.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the incident."
+        },
+        "location": {
+          "type": "string",
+          "description": "Geolocation coordinates of the incident (e.g., latitude, longitude)."
+        },
+        "incidentType": {
+          "type": "string",
+          "description": "Type of incident (e.g., animal attack, property damage)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the incident."
+        },
+        "reportedTime": {
+          "type": "string",
+          "description": "Date and time when the incident was reported.",
+          "format": "date-time"
+        },
+        "animalType": {
+          "type": "string",
+          "description": "Type of animal involved in the incident."
+        },
+        "rangerInChargeId": {
+          "type": "string",
+          "description": "Reference to the Ranger responsible for handling the incident. (Relationship: Ranger 1:N Incident)"
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the incident (e.g., reported, under investigation, resolved)."
+        },
+        "actionTaken": {
+          "type": "string",
+          "description": "Notes on the actions taken to resolve the incident."
+        }
+      },
+      "required": [
+        "id",
+        "location",
+        "incidentType",
+        "description",
+        "reportedTime",
+        "animalType",
+        "rangerInChargeId",
+        "status",
+        "actionTaken"
+      ]
+    },
+    "Ranger": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Ranger",
+      "type": "object",
+      "description": "Represents a ranger responsible for handling wildlife-human conflict incidents.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ranger."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the ranger."
+        },
+        "contactNumber": {
+          "type": "string",
+          "description": "Contact number of the ranger."
+        },
+        "availabilityStatus": {
+          "type": "string",
+          "description": "Current availability status of the ranger (e.g., online, offline, on duty)."
+        },
+        "currentLocation": {
+          "type": "string",
+          "description": "Geolocation coordinates of the ranger's current location."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "contactNumber",
+        "availabilityStatus",
+        "currentLocation"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/rangers/{rangerId}",
+        "definition": {
+          "entityName": "Ranger",
+          "schema": {
+            "$ref": "#/backend/entities/Ranger"
+          },
+          "description": "Stores ranger information. Path-based access control ensures rangers can only modify their own data.",
+          "params": [
+            {
+              "name": "rangerId",
+              "description": "The unique identifier of the ranger."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/incidents/{incidentId}",
+        "definition": {
+          "entityName": "Incident",
+          "schema": {
+            "$ref": "#/backend/entities/Incident"
+          },
+          "description": "Stores incident reports. Includes 'rangerInChargeId' to link incidents to rangers. The field `status` indicates the current status of the incident, to show real time data in the dashboard.",
+          "params": [
+            {
+              "name": "incidentId",
+              "description": "The unique identifier of the incident."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The data structure prioritizes secure access and efficient querying for the WildGuard Dashboard application. All data is stored in top-level collections to ensure security rules are simple and do not require complex hierarchy, while also supporting listing operations. The structure consists of the `rangers` collection and the `incidents` collection. The ranger data is stored in `/rangers/{rangerId}`. This approach enables path-based access control, making rules straightforward (e.g., allowing only the ranger to update their own information). The incident data is stored in `/incidents/{incidentId}`. Every incident record contains the ranger responsible for handling the incident, using the field `rangerInChargeId`, allowing the system to query all incidents assigned to a specific ranger. Also, to allow the system to show real time data and analytics, the `incidents` record has a `status` field to enable querying of all active alerts and display them in the dashboard."
+  }
+}

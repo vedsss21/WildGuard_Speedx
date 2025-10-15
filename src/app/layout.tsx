@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EcoGuardian Dashboard",
+  title: "WildGuard Dashboard",
   description:
     "Leveraging Technology to Reduce Wildlife–Human Conflict.",
 };

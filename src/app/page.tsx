@@ -69,7 +69,7 @@ function LandingPageContent() {
       <header className="px-4 lg:px-6 h-14 flex items-center bg-background/80 backdrop-blur-sm fixed top-0 w-full z-50">
         <Link href="/" className="flex items-center justify-center">
           <Icons.Logo className="h-6 w-6 text-primary" />
-          <span className="sr-only">EcoGuardian</span>
+          <span className="sr-only">WildGuard</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Button variant="ghost" asChild>
@@ -249,7 +249,7 @@ function LandingPageContent() {
 
       </main>
       <footer className="flex items-center justify-center p-6 bg-background">
-        <p className="text-sm text-muted-foreground">© 2025 EcoGuardian. All rights reserved.</p>
+        <p className="text-sm text-muted-foreground">© 2025 WildGuard. All rights reserved.</p>
       </footer>
     </div>
   );
