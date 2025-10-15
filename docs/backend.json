@@ -91,6 +91,24 @@
         "availabilityStatus",
         "currentLocation"
       ]
+    },
+    "DeviceStatus": {
+      "title": "Device Status",
+      "type": "object",
+      "description": "Represents the real-time status of a hardware device.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["on", "off"],
+          "description": "The current state of the device."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp of the last status update."
+        }
+      },
+      "required": ["status", "updatedAt"]
     }
   },
   "auth": {
@@ -130,6 +148,22 @@
             {
               "name": "incidentId",
               "description": "The unique identifier of the incident."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/device-status/{deviceId}",
+        "definition": {
+          "entityName": "DeviceStatus",
+          "schema": {
+            "$ref": "#/backend/entities/DeviceStatus"
+          },
+          "description": "Stores the real-time status of hardware devices like buzzers. The web app listens to this collection to trigger actions.",
+          "params": [
+            {
+              "name": "deviceId",
+              "description": "The unique identifier of the hardware device."
             }
           ]
         }

@@ -26,6 +26,8 @@ import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useFirestore, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
 
 const LiveTrackingMap = dynamic(() => import("@/components/dashboard/live-tracking-map"), {
     ssr: false,
@@ -38,6 +40,11 @@ const initialSmartDevices = [
     { id: "SENS-012", type: "Infrared Sensor", location: "Vihighar Trail", status: "Inactive" },
     { id: "BUZZ-002", type: "Acoustic Buzzer", location: "Highway Crossing 1", status: "Active" },
 ];
+
+type DeviceStatus = {
+    status: 'on' | 'off';
+    updatedAt: any;
+}
   
 export default function AlertsPage() {
     const { t } = useTranslation();
@@ -46,6 +53,21 @@ export default function AlertsPage() {
     const audioContextRef = useRef<AudioContext | null>(null);
     const oscillatorRef = useRef<OscillatorNode | null>(null);
     const [smartDevices, setSmartDevices] = useState(initialSmartDevices);
+    const firestore = useFirestore();
+
+    const buzzerStatusRef = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return doc(firestore, 'device-status', 'main-buzzer');
+    }, [firestore]);
+
+    const { data: buzzerStatus } = useDoc<DeviceStatus>(buzzerStatusRef);
+
+    useEffect(() => {
+        if (buzzerStatus?.status === 'on') {
+            playBuzzer();
+        }
+    }, [buzzerStatus]);
+
 
     const initialLiveAlerts = [
         { time: t('alerts.live.time1'), device: "CAM-004", alert: t('alerts.live.alert1'), priority: "High" },
