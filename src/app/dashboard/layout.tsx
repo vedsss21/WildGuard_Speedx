@@ -16,6 +16,7 @@ import {
   Users,
   Siren,
   WifiOff,
+  Camera,
 } from "lucide-react";
 
 import {
@@ -48,6 +49,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/incidents", icon: ShieldAlert, label: "nav.manageIncidents" },
   { href: "/dashboard/alerts", icon: Siren, label: "nav.alerts" },
   { href: "/dashboard/rangers", icon: Users, label: "nav.rangers" },
+  { href: "/dashboard/detector", icon: Camera, label: "Detector" },
   { href: "/dashboard/offline", icon: WifiOff, label: "nav.offline" },
 ];
 
