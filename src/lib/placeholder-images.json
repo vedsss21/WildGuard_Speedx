@@ -63,14 +63,14 @@
     {
       "id": "login-background",
       "description": "Jungle background for login page.",
-      "imageUrl": "https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "jungle path"
+      "imageUrl": "https://images.unsplash.com/photo-1564869683852-bf5310f39e3a?q=80&w=2071&auto=format&fit=crop",
+      "imageHint": "dark jungle"
     },
     {
       "id": "dashboard-background",
       "description": "Misty jungle background for dashboard.",
-      "imageUrl": "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=2070&auto=format&fit=crop",
-      "imageHint": "misty jungle"
+      "imageUrl": "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "misty forest"
     }
   ]
 }
