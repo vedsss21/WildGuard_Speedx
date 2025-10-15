@@ -20,7 +20,6 @@ export default {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
         headline: ['var(--font-sans)', ...fontFamily.sans],
-        code: ['monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',
