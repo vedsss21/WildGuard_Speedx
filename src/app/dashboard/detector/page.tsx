@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,15 +14,17 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { Camera, AlertTriangle, Loader2 } from "lucide-react";
 import { useTranslation } from "@/contexts/language-context";
+import { detectAnimal } from "@/ai/flows/detect-animal-flow";
 
 export default function DetectorPage() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isAnalyzing, startTransition] = useTransition();
   const [detectedAnimal, setDetectedAnimal] = useState<string | null>(null);
   const [confidence, setConfidence] = useState<number | null>(null);
+  const [isTiger, setIsTiger] = useState(false);
 
   useEffect(() => {
     const getCameraPermission = async () => {
@@ -39,7 +41,7 @@ export default function DetectorPage() {
         toast({
           variant: "destructive",
           title: "Camera Access Denied",
-          description: "Please enable camera permissions in your browser settings to use the detector.",
+          description: "Please enable camera permissions in your browser to use the detector.",
         });
       }
     };
@@ -48,17 +50,42 @@ export default function DetectorPage() {
   }, [toast]);
 
   const handleStartDetection = () => {
-    setIsAnalyzing(true);
-    setDetectedAnimal(null);
-    setConfidence(null);
+    if (!videoRef.current) return;
 
-    // Simulate ML model analysis time
-    setTimeout(() => {
-      // Prioritize tiger detection
-      setDetectedAnimal("Tiger");
-      setConfidence(88);
-      setIsAnalyzing(false);
-    }, 4000); // Simulate a 4-second analysis
+    const canvas = document.createElement("canvas");
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const photoDataUri = canvas.toDataURL("image/jpeg");
+
+    startTransition(async () => {
+        setDetectedAnimal(null);
+        setConfidence(null);
+        setIsTiger(false);
+      try {
+        const result = await detectAnimal({ photoDataUri });
+        if (result && result.detectedAnimal !== "None") {
+            setDetectedAnimal(result.detectedAnimal);
+            setConfidence(result.confidence);
+            setIsTiger(result.isTiger);
+        } else {
+            toast({
+                title: "No Animal Detected",
+                description: "The AI model did not find any animals in the current frame.",
+            });
+        }
+      } catch (error) {
+        console.error("Detection failed:", error);
+        toast({
+            variant: "destructive",
+            title: "Detection Failed",
+            description: "There was an error communicating with the AI service.",
+        });
+      }
+    });
   };
 
   return (
@@ -100,8 +127,8 @@ export default function DetectorPage() {
             )}
           </Button>
 
-          {detectedAnimal && confidence && (
-            <Alert variant={detectedAnimal === "Tiger" ? "destructive" : "default"}>
+          {detectedAnimal && confidence !== null && (
+            <Alert variant={isTiger ? "destructive" : "default"}>
                 <AlertTriangle className="h-4 w-4" />
                 <AlertTitle>Detection Result: {detectedAnimal}</AlertTitle>
                 <AlertDescription className="space-y-2 mt-2">
