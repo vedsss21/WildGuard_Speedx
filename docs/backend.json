@@ -95,7 +95,8 @@
   "auth": {
     "providers": [
       "password",
-      "anonymous"
+      "anonymous",
+      "google.com"
     ]
   },
   "firestore": {
@@ -133,6 +134,6 @@
         }
       }
     ],
-    "reasoning": "The data structure prioritizes secure access and efficient querying for the EcoGuardian Dashboard application. All data is stored in top-level collections to ensure security rules are simple and do not require complex hierarchy, while also supporting listing operations. The structure consists of the `rangers` collection and the `incidents` collection. The ranger data is stored in `/rangers/{rangerId}`. This approach enables path-based access control, making rules straightforward (e.g., allowing only the ranger to update their own information). The incident data is stored in `/incidents/{incidentId}`. Every incident record contains the ranger responsible for handling the incident, using the field `rangerInChargeId`, allowing the system to query all incidents assigned to a specific ranger. Also, to allow the system to show real time data and analytics, the `incidents` record has a `status` field to enable querying of all active alerts and display them in the dashboard."
+    "reasoning": "The data structure prioritizes secure access and efficient querying for the WildGuard Dashboard application. All data is stored in top-level collections to ensure security rules are simple and do not require complex hierarchy, while also supporting listing operations. The structure consists of the `rangers` collection and the `incidents` collection. The ranger data is stored in `/rangers/{rangerId}`. This approach enables path-based access control, making rules straightforward (e.g., allowing only the ranger to update their own information). The incident data is stored in `/incidents/{incidentId}`. Every incident record contains the ranger responsible for handling the incident, using the field `rangerInChargeId`, allowing the system to query all incidents assigned to a specific ranger. Also, to allow the system to show real time data and analytics, the `incidents` record has a `status` field to enable querying of all active alerts and display them in the dashboard."
   }
 }
