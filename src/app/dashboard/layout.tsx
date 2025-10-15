@@ -157,6 +157,7 @@ function DashboardLayoutContent({
   children: React.ReactNode;
 }) {
   const { t } = useTranslation();
+  const dashboardBg = PlaceHolderImages.find(p => p.id === 'dashboard-background');
 
   return (
     <SidebarProvider>
@@ -186,7 +187,10 @@ function DashboardLayoutContent({
 
       <SidebarInset>
         <Header />
-        <main className="dashboard-main min-h-[calc(100vh-3.5rem)] p-4 md:p-8">
+        <main 
+          className="dashboard-main min-h-[calc(100vh-3.5rem)] p-4 md:p-8"
+          style={{ '--dashboard-bg-image': `url(${dashboardBg?.imageUrl})` } as React.CSSProperties}
+        >
           {children}
         </main>
         <footer className="flex items-center justify-center p-6 bg-background relative z-10">

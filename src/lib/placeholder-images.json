@@ -39,20 +39,38 @@
     {
       "id": "hero-image",
       "description": "Hero image for the landing page",
-      "imageUrl": "https://picsum.photos/seed/hero-wildlife/1200/800",
-      "imageHint": "wildlife nature"
+      "imageUrl": "https://images.unsplash.com/photo-1476610182273-515FAA6358bb?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "jungle canopy"
     },
     {
       "id": "wildlife-collage",
       "description": "A collage of wildlife animals.",
-      "imageUrl": "https://storage.googleapis.com/aifirebase-cloud-build-public-release-artifacts/a5344331-b996-4a4a-9c29-373f7336f33d/image.jpg",
-      "imageHint": "wildlife collage"
+      "imageUrl": "https://images.unsplash.com/photo-1551893478-d726eaf0442c?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "tiger face"
     },
     {
       "id": "tadoba-animals",
-      "description": "A collage of animals from Tadoba.",
-      "imageUrl": "https://storage.googleapis.com/aifirebase-cloud-build-public-release-artifacts/a5344331-b996-4a4a-9c29-373f7336f33d/image.jpg",
-      "imageHint": "tadoba animals"
+      "description": "An elephant in the wild.",
+      "imageUrl": "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?q=80&w=1932&auto=format&fit=crop",
+      "imageHint": "elephant wild"
+    },
+    {
+      "id": "rangers-team",
+      "description": "A team of wildlife rangers.",
+      "imageUrl": "https://images.unsplash.com/photo-1599497592338-38b975a5b91b?q=80&w=2071&auto=format&fit=crop",
+      "imageHint": "wildlife rangers team"
+    },
+    {
+      "id": "login-background",
+      "description": "Jungle background for login page.",
+      "imageUrl": "https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "jungle background"
+    },
+    {
+      "id": "dashboard-background",
+      "description": "Misty jungle background for dashboard.",
+      "imageUrl": "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=2070&auto=format&fit=crop",
+      "imageHint": "misty jungle"
     }
   ]
 }

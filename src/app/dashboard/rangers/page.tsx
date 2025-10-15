@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -27,17 +28,19 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
                     {t('rangers.description')}
                 </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col items-center gap-4">
-                <p>{t('rangers.content')}</p>
+            <CardContent className="flex flex-col items-center gap-4 text-center">
+                <p className="text-lg max-w-2xl">{t('rangers.content')}</p>
                 {wildlifeCollage && (
-                  <Image 
-                    src={wildlifeCollage.imageUrl}
-                    alt="Wildlife collage"
-                    width={800}
-                    height={300}
-                    className="rounded-lg object-cover"
-                    data-ai-hint={wildlifeCollage.imageHint}
-                  />
+                  <div className="w-full max-w-4xl aspect-video relative mt-4">
+                    <Image 
+                      src={wildlifeCollage.imageUrl}
+                      alt="Wildlife collage"
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-lg"
+                      data-ai-hint={wildlifeCollage.imageHint}
+                    />
+                  </div>
                 )}
             </CardContent>
         </Card>

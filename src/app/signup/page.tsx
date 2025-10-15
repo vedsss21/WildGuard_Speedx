@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -16,7 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
-
+import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 function SignupPageContent() {
   const router = useRouter();
@@ -24,6 +26,7 @@ function SignupPageContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const loginBgImage = PlaceHolderImages.find(p => p.id === 'login-background');
 
 
   const handleSignup = (e: React.FormEvent) => {
@@ -37,8 +40,18 @@ function SignupPageContent() {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-background overflow-hidden">
+        {loginBgImage && (
+            <Image
+                src={loginBgImage.imageUrl}
+                alt={loginBgImage.description}
+                layout="fill"
+                objectFit="cover"
+                className="absolute inset-0 z-0 opacity-20"
+                data-ai-hint={loginBgImage.imageHint}
+            />
+        )}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent -z-10"/>
-      <Card className="w-full max-w-sm shadow-2xl">
+      <Card className="w-full max-w-sm shadow-2xl z-10 bg-background/80 backdrop-blur-sm">
         <form onSubmit={handleSignup}>
           <CardHeader className="text-center">
             <Link href="/" className="flex justify-center items-center gap-2 mb-4">

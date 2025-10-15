@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -16,12 +17,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
 import { LanguageProvider, useTranslation } from "@/contexts/language-context";
+import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 function LoginPageContent() {
   const router = useRouter();
   const { t } = useTranslation();
   const [username, setUsername] = useState("admin@wildguard.gov");
   const [password, setPassword] = useState("password");
+  const loginBgImage = PlaceHolderImages.find(p => p.id === 'login-background');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +34,18 @@ function LoginPageContent() {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-background overflow-hidden">
+        {loginBgImage && (
+            <Image
+                src={loginBgImage.imageUrl}
+                alt={loginBgImage.description}
+                layout="fill"
+                objectFit="cover"
+                className="absolute inset-0 z-0 opacity-20"
+                data-ai-hint={loginBgge.imageHint}
+            />
+        )}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent -z-10"/>
-      <Card className="w-full max-w-sm shadow-2xl">
+      <Card className="w-full max-w-sm shadow-2xl z-10 bg-background/80 backdrop-blur-sm">
         <form onSubmit={handleLogin}>
           <CardHeader className="text-center">
             <Link href="/" className="flex justify-center items-center gap-2 mb-4">

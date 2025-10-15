@@ -28,6 +28,7 @@ function LandingPageContent() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-image');
   const wildlifeCollage = PlaceHolderImages.find(p => p.id === 'wildlife-collage');
   const tadobaAnimalsImage = PlaceHolderImages.find(p => p.id === 'tadoba-animals');
+  const rangersTeamImage = PlaceHolderImages.find(p => p.id === 'rangers-team');
 
 
   const ref1 = useRef(null);
@@ -235,12 +236,12 @@ function LandingPageContent() {
                   transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <Image
-                    src="https://picsum.photos/seed/stats-image/600/400"
-                    alt="Rangers"
+                    src={rangersTeamImage?.imageUrl || "https://picsum.photos/seed/stats-image/600/400"}
+                    alt={rangersTeamImage?.description || "Rangers"}
                     width={600}
                     height={400}
                     className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full shadow-lg"
-                    data-ai-hint="wildlife rangers team"
+                    data-ai-hint={rangersTeamImage?.imageHint}
                 />
               </motion.div>
             </motion.div>
