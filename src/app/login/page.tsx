@@ -21,7 +21,6 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useAuth } from "@/firebase";
 import { initiateEmailSignIn, initiateGoogleSignIn } from "@/firebase/non-blocking-login";
-import { Separator } from "@/components/ui/separator";
 
 function LoginPageContent() {
   const router = useRouter();
