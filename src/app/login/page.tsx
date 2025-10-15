@@ -32,6 +32,7 @@ function LoginPageContent() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!auth) return;
     initiateEmailSignIn(auth, username, password);
     router.push("/dashboard");
   };
@@ -117,6 +118,13 @@ function LoginPageContent() {
                 <Button variant="link" asChild className="p-0 h-auto">
                     <Link href="/signup">
                         {t('login.signupLink')}
+                    </Link>
+                </Button>
+            </div>
+             <div className="text-sm text-center text-muted-foreground">
+                <Button variant="link" asChild className="p-0 h-auto">
+                    <Link href="/">
+                        Back to Home
                     </Link>
                 </Button>
             </div>
