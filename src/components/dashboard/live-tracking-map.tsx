@@ -46,9 +46,9 @@ const getAnimalIcon = (animal: string) => {
 
 
 const initialAnimalData = [
-    { id: 'leo1', type: 'Leopard', lat: 19.0760, lng: 72.8777 },
-    { id: 'ele1', type: 'Elephant', lat: 19.08, lng: 72.88 },
-    { id: 'bird1', type: 'Bird', lat: 19.07, lng: 72.87 },
+    { id: 'leo1', type: 'Leopard', lat: 19.9615, lng: 79.2961 },
+    { id: 'ele1', type: 'Elephant', lat: 19.9650, lng: 79.3000 },
+    { id: 'bird1', type: 'Bird', lat: 19.9580, lng: 79.2900 },
 ]
 
 export default function LiveTrackingMap() {
@@ -59,7 +59,7 @@ export default function LiveTrackingMap() {
 
     useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) { 
-            mapRef.current = L.map(mapContainerRef.current).setView([19.0760, 72.8777], 13);
+            mapRef.current = L.map(mapContainerRef.current).setView([19.9615, 79.2961], 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -11,12 +11,12 @@ import { cn } from '@/lib/utils';
 import ReactDOMServer from 'react-dom/server';
 import { useTranslation } from '@/contexts/language-context';
 
-// Mock coordinates for incidents
+// Mock coordinates for incidents around Chandrapur
 const incidentLocations = [
-    { lat: 18.5204, lng: 73.8567 }, // Pune
-    { lat: 19.0760, lng: 72.8777 }, // Mumbai
-    { lat: 19.0760, lng: 72.8777 }, // Mumbai
-    { lat: 19.2183, lng: 72.9781 }, // Thane
+    { lat: 19.9615, lng: 79.2961 }, // Chandrapur Center
+    { lat: 19.9715, lng: 79.3061 }, // Near Chandrapur
+    { lat: 19.9515, lng: 79.2861 }, // Near Chandrapur
+    { lat: 20.0000, lng: 79.3500 }, // North of Chandrapur
 ];
 
 const PopupContent = ({ incident, t }: { incident: (typeof recentIncidentsData)[0], t: (key: string) => string }) => (
@@ -56,7 +56,7 @@ export default function MapViewFull() {
 
     useEffect(() => {
         if (mapContainerRef.current && !mapRef.current) { 
-            mapRef.current = L.map(mapContainerRef.current).setView([19.0760, 72.8777], 8);
+            mapRef.current = L.map(mapContainerRef.current).setView([19.9615, 79.2961], 12);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -67,7 +67,7 @@ export default function MapViewFull() {
                     <PopupContent incident={incident} t={t}/>
                 );
 
-                L.marker([incidentLocations[index].lat, incidentLocations[index].lng])
+                L.marker([incidentLocations[index % incidentLocations.length].lat, incidentLocations[index % incidentLocations.length].lng])
                     .addTo(mapRef.current!)
                     .bindPopup(popupContent);
             });

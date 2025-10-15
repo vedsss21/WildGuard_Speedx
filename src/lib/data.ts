@@ -69,7 +69,7 @@ export const recentIncidentsData = [
   {
     id: "INC-01H8X2J",
     type: "Crop Damage",
-    location: "Kothrud, Pune",
+    location: "Near Tadoba Reserve",
     date: "2024-07-28",
     status: "Resolved",
     actionTaken: "Compensation provided. Fencing advised.",
@@ -77,7 +77,7 @@ export const recentIncidentsData = [
   {
     id: "INC-01H8X2K",
     type: "Animal Attack",
-    location: "Aarey Colony, Mumbai",
+    location: "Chandrapur City Outskirts",
     date: "2024-07-27",
     status: "Active",
     actionTaken: "Ranger team dispatched. Victim hospitalized.",
@@ -85,7 +85,7 @@ export const recentIncidentsData = [
   {
     id: "INC-01H8X2L",
     type: "Sighting",
-    location: "Sanjay Gandhi NP",
+    location: "Moharli Gate Area",
     date: "2024-07-27",
     status: "Pending",
     actionTaken: "Monitoring team alerted.",
@@ -93,7 +93,7 @@ export const recentIncidentsData = [
   {
     id: "INC-01H8X2M",
     type: "Property Damage",
-    location: "Yeoor Hills, Thane",
+    location: "Bhadravati Town",
     date: "2024-07-26",
     status: "Resolved",
     actionTaken: "Damage assessment complete. Report filed.",
